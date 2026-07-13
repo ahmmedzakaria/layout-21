@@ -1,0 +1,664 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sentinel KYC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#121821;
+  --paper:#f3f5f7;
+  --card:#ffffff;
+  --surface-2:#f8f9fb;
+  --border:#e2e6ea;
+  --text:#1a222c;
+  --text-muted:#5c6672;
+  --accent:#1f6f5c;
+  --accent-soft:#e4f1ed;
+  --amber:#a8630b;
+  --amber-soft:#fbeed9;
+  --red:#9f2b2b;
+  --red-soft:#faeaea;
+  --focus:#2f7dd1;
+  --radius:8px;
+  --shadow:0 8px 24px rgba(18,24,33,.14);
+
+  /* chrome = header, rail, status bar */
+  --chrome-bg:#ffffff;
+  --chrome-border:#e2e6ea;
+  --chrome-border-strong:#d7dce1;
+  --chrome-text:#1a222c;
+  --chrome-text-muted:#7d8794;
+  --chrome-icon:#5c6672;
+  --chrome-hover-bg:#eef1f4;
+  --chrome-active-bg:var(--accent-soft);
+  --chrome-search-bg:#f3f5f7;
+  --chrome-search-border:#dde2e7;
+  --chrome-search-text:#1a222c;
+  --chrome-search-placeholder:#97a1ab;
+}
+body.dark{
+  --paper:#0d1218;
+  --card:#161d26;
+  --surface-2:#1b2330;
+  --border:#2a323d;
+  --text:#e7ebef;
+  --text-muted:#8b96a3;
+  --accent-soft:#173430;
+  --amber-soft:#2c2110;
+  --red-soft:#2b1616;
+
+  --chrome-bg:#121821;
+  --chrome-border:#232d3a;
+  --chrome-border-strong:#0a0e13;
+  --chrome-text:#ffffff;
+  --chrome-text-muted:#9aa5b1;
+  --chrome-icon:#c7cfd8;
+  --chrome-hover-bg:#1c2531;
+  --chrome-active-bg:#1c2531;
+  --chrome-search-bg:#1b2430;
+  --chrome-search-border:#2a3542;
+  --chrome-search-text:#ffffff;
+  --chrome-search-placeholder:#69707c;
+}
+
+/* accent-only theme variants (light structural base) */
+body[data-theme="blue"]{ --accent:#2c5aa0; --accent-soft:#e4ebf5; }
+body[data-theme="green"]{ --accent:#1c7a4c; --accent-soft:#e1f2e8; }
+body[data-theme="purple"]{ --accent:#6b3fa0; --accent-soft:#ede4f5; }
+body[data-theme="gray"]{ --accent:#3f4a54; --accent-soft:#e7eaed; }
+body.dark[data-theme="dark"]{ --accent:#1f6f5c; --accent-soft:#173430; }
+
+/* Navy Banking — its own dark palette, distinct from generic Dark */
+body.dark[data-theme="navy"]{
+  --accent:#c99a3b;
+  --accent-soft:#2e2510;
+  --paper:#0b1420;
+  --card:#101d30;
+  --surface-2:#16233a;
+  --border:#1f2f47;
+  --text:#e9edf3;
+  --text-muted:#8b9bb0;
+
+  --chrome-bg:#0b1a33;
+  --chrome-border:#1c2f4d;
+  --chrome-border-strong:#081527;
+  --chrome-hover-bg:#142848;
+  --chrome-active-bg:#142848;
+  --chrome-search-bg:#0f2140;
+  --chrome-search-border:#1c2f4d;
+  --chrome-search-text:#ffffff;
+  --chrome-search-placeholder:#7488a8;
+}
+
+*{box-sizing:border-box}
+body{margin:0;font-family:"Public Sans",Arial,sans-serif;background:var(--paper);color:var(--text);overflow:hidden;-webkit-font-smoothing:antialiased;transition:background .2s,color .2s}
+.mono{font-family:"IBM Plex Mono",monospace}
+
+header{height:58px;background:var(--chrome-bg);color:var(--chrome-text);display:flex;align-items:center;padding:0 18px;border-bottom:1px solid var(--chrome-border-strong);flex-shrink:0;gap:20px;transition:background .2s,color .2s,border-color .2s}
+.brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px;letter-spacing:.2px;flex-shrink:0}
+.brand svg{flex-shrink:0;stroke:var(--chrome-text)}
+.brand small{display:block;font-weight:400;color:var(--chrome-text-muted);font-size:11px;letter-spacing:.4px;text-transform:uppercase;margin-top:1px}
+
+.hdr-center{flex:1;display:flex;justify-content:center;min-width:0}
+.global-search{display:flex;align-items:center;gap:2px;background:var(--chrome-search-bg);border:1px solid var(--chrome-search-border);border-radius:9px;height:38px;width:100%;max-width:560px;padding-left:12px}
+.global-search select{background:transparent;border:none;color:var(--chrome-icon);font-size:12px;font-family:inherit;padding-right:10px;border-right:1px solid var(--chrome-search-border);height:38px;cursor:pointer;outline:none;flex-shrink:0}
+.global-search select option{background:var(--chrome-search-bg);color:var(--chrome-search-text)}
+.global-search input{flex:1;min-width:0;background:transparent;border:none;outline:none;color:var(--chrome-search-text);font-size:13.5px;font-family:inherit;padding:0 10px}
+.global-search input::placeholder{color:var(--chrome-search-placeholder)}
+.global-search .go{width:32px;height:32px;margin-right:3px;border-radius:7px;display:flex;align-items:center;justify-content:center;color:var(--chrome-icon);cursor:pointer;flex-shrink:0;transition:background .15s,color .15s}
+.global-search .go:hover{background:var(--chrome-hover-bg);color:var(--chrome-text)}
+
+.hdr-right{display:flex;align-items:center;gap:4px;flex-shrink:0}
+.hdr-item{position:relative}
+.hdr-btn{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--chrome-icon);transition:background .15s,color .15s;position:relative}
+.hdr-btn:hover{background:var(--chrome-hover-bg);color:var(--chrome-text)}
+.hdr-pill{display:flex;align-items:center;gap:5px;height:36px;padding:0 9px;border-radius:9px;color:var(--chrome-icon);cursor:pointer;font-size:12px;font-weight:600;transition:background .15s,color .15s,width .18s,padding .18s;white-space:nowrap}
+.hdr-pill:hover{background:var(--chrome-hover-bg);color:var(--chrome-text)}
+.hdr-pill .chev{color:var(--chrome-text-muted);transition:transform .15s}
+.hdr-item.open .hdr-pill .chev,.hdr-item.open .hdr-btn{color:var(--chrome-text)}
+.hdr-item.open .hdr-pill .chev{transform:rotate(180deg)}
+
+/* header icon view — mirrors the collapsed rail state */
+header.icon-view{transition:background .2s,color .2s,border-color .2s}
+header.icon-view .brand .brand-text{display:none}
+header.icon-view .global-search{max-width:38px;padding-left:0;justify-content:center;background:transparent;border-color:transparent}
+header.icon-view .global-search select,
+header.icon-view .global-search input{display:none}
+header.icon-view .global-search .go{margin-right:0}
+header.icon-view .global-search:hover{background:var(--chrome-hover-bg);border-color:var(--chrome-search-border)}
+header.icon-view .hdr-pill{width:36px;padding:0;justify-content:center}
+header.icon-view .hdr-pill .lbl-text,
+header.icon-view .hdr-pill .chev{display:none}
+header:not(.icon-view) .global-search{cursor:default}
+.badge{position:absolute;top:-5px;right:-7px;min-width:15px;height:15px;background:var(--red);color:#fff;font-size:9px;font-weight:700;border-radius:99px;display:flex;align-items:center;justify-content:center;padding:0 3px;border:2px solid var(--chrome-bg);line-height:1}
+.icon-wrap{position:relative;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.swatch{width:14px;height:14px;border-radius:50%;flex-shrink:0;box-shadow:0 0 0 2px var(--chrome-bg),0 0 0 3px var(--chrome-border)}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;cursor:pointer;flex-shrink:0}
+.divider{width:1px;height:24px;background:var(--chrome-border);margin:0 4px;flex-shrink:0}
+
+.hdr-dropdown{position:absolute;top:46px;right:0;background:var(--card);border:1px solid var(--border);border-radius:9px;box-shadow:var(--shadow);min-width:190px;display:none;z-index:40;overflow:hidden}
+.hdr-item.open .hdr-dropdown{display:block}
+.hdr-dropdown .dd-head{padding:10px 14px 6px;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--text-muted);font-weight:600}
+.hdr-dropdown .opt{padding:9px 14px;font-size:13px;color:var(--text);cursor:pointer;display:flex;align-items:center;gap:9px}
+.hdr-dropdown .opt:hover{background:var(--surface-2)}
+.hdr-dropdown .opt.active{color:var(--accent);font-weight:600}
+.hdr-dropdown .opt .meta{margin-left:auto;font-size:11px;color:var(--text-muted);font-weight:400}
+.hdr-dropdown .empty{padding:16px 14px;font-size:12.5px;color:var(--text-muted);text-align:center}
+
+.hdr-dropdown.apps-panel{min-width:260px}
+.hdr-dropdown .dd-head .sso-tag{margin-left:7px;background:var(--accent-soft);color:var(--accent);font-size:9px;font-weight:700;letter-spacing:.4px;padding:1px 6px;border-radius:99px;text-transform:none;vertical-align:1px}
+.apps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;padding:6px}
+.app-tile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;padding:12px 4px;border-radius:9px;cursor:pointer;text-align:center;color:var(--text)}
+.app-tile:hover{background:var(--surface-2)}
+.app-tile .tile-icon{width:34px;height:34px;border-radius:9px;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.app-tile .name{font-size:10.5px;font-weight:500;line-height:1.25}
+
+.app{display:flex;height:calc(100vh - 58px - 28px)}
+
+.rail{width:64px;background:var(--chrome-bg);color:var(--chrome-text);transition:width .18s ease,background .2s,color .2s;position:relative;z-index:20;display:flex;flex-direction:column;flex-shrink:0;border-right:1px solid var(--chrome-border)}
+.rail.exp{width:208px}
+.toggle{height:44px;display:flex;align-items:center;padding:0 20px;cursor:pointer;border-bottom:1px solid var(--chrome-border);color:var(--chrome-text-muted);flex-shrink:0}
+.toggle:hover{color:var(--chrome-text)}
+
+.module-row{height:46px;display:flex;align-items:center;gap:8px;padding:0 10px;cursor:pointer;white-space:nowrap;color:var(--chrome-icon);border-left:3px solid transparent;transition:background .15s,border-color .15s,color .15s}
+.module-row svg{flex-shrink:0}
+.module-row .arrow{width:11px;flex-shrink:0;display:flex;color:var(--chrome-text-muted);transition:color .15s}
+.module-row .arrow svg{transition:transform .2s cubic-bezier(.4,0,.2,1)}
+.module-row.open .arrow svg{transform:rotate(90deg)}
+.module-row .lbl{font-size:13.5px;font-weight:500;opacity:0;transition:opacity .15s}
+.rail.exp .module-row .lbl{opacity:1}
+.module-row:hover{background:var(--chrome-hover-bg);color:var(--chrome-text)}
+.module-row:hover svg{transform:translateX(1px)}
+.module-row.open{background:var(--chrome-active-bg);color:var(--chrome-text);border-left-color:var(--accent)}
+.module-row.open .arrow{color:var(--accent)}
+
+.child-row{padding:8px 0 8px 30px;font-size:12.5px;color:var(--chrome-text-muted);cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:9px}
+.child-row svg{flex-shrink:0;color:var(--chrome-text-muted)}
+.child-row .lbl{opacity:0;transition:opacity .15s}
+.rail.exp .child-row .lbl{opacity:1}
+.rail:not(.exp) .child-row{padding:8px 0;justify-content:center}
+.rail:not(.exp) .child-row .lbl{display:none}
+.child-row:hover,.child-row.active{background:var(--chrome-hover-bg);color:var(--chrome-text)}
+.child-row:hover svg,.child-row.active svg{color:var(--chrome-text)}
+
+.main{flex:1;padding:22px 28px;position:relative;overflow:auto}
+#bc{font-size:12.5px;color:var(--text-muted);display:flex;align-items:center;gap:6px}
+#bc .sep{color:#c3c9cf}
+h2#ttl{margin:4px 0 20px;font-size:22px;font-weight:700;letter-spacing:-.2px}
+
+.cards{display:flex;gap:14px;margin-bottom:24px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;flex:1;border-left:3px solid var(--accent);box-shadow:0 1px 2px rgba(18,24,33,.04)}
+.card.warn{border-left-color:var(--amber)}
+.card.risk{border-left-color:var(--red)}
+.card .lbl{font-size:12px;color:var(--text-muted);font-weight:500;text-transform:uppercase;letter-spacing:.4px}
+.card .val{font-size:26px;font-weight:700;margin-top:4px;font-family:"IBM Plex Mono",monospace}
+
+.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.panel-head h3{font-size:14px;font-weight:600;margin:0}
+
+table{width:100%;background:var(--card);border-collapse:collapse;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+th{text-align:left;font-size:11.5px;text-transform:uppercase;letter-spacing:.4px;color:var(--text-muted);font-weight:600;background:var(--surface-2);padding:10px 14px;border-bottom:1px solid var(--border)}
+td{padding:11px 14px;border-bottom:1px solid var(--border);font-size:13.5px}
+tr:last-child td{border-bottom:none}
+td.id{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--text-muted)}
+
+.pill{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:600}
+.pill::before{content:"";width:6px;height:6px;border-radius:50%}
+.pill.pending{background:var(--amber-soft);color:var(--amber)}
+.pill.pending::before{background:var(--amber)}
+.pill.approved{background:var(--accent-soft);color:var(--accent)}
+.pill.approved::before{background:var(--accent)}
+.pill.risk{background:var(--red-soft);color:var(--red)}
+.pill.risk::before{background:var(--red)}
+
+/* single flyout: the actual items list, opened only by clicking a child (Operation/Setup/Report) row */
+#panelFlyout{position:fixed;display:none;z-index:30;overflow:auto;background:var(--card);max-height:calc(100vh - 74px);box-shadow:var(--shadow);width:220px;border-radius:0 var(--radius) var(--radius) 0}
+#panelFlyout.open{display:block}
+#panelFlyout .cat{padding:12px 16px 6px;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--text-muted);font-weight:600}
+#panelFlyout .item{padding:10px 16px;font-size:13.5px;color:var(--text);cursor:pointer}
+#panelFlyout .item:hover{background:#f4f6f8;color:var(--accent)}
+
+.module-row:focus-visible,.child-row:focus-visible,.hdr-btn:focus-visible,.hdr-pill:focus-visible,.avatar:focus-visible,.global-search .go:focus-visible,#panelFlyout .item:focus-visible,.toggle:focus-visible{outline:2px solid var(--focus);outline-offset:-2px}
+
+/* status bar */
+.statusbar{height:28px;flex-shrink:0;background:var(--chrome-bg);color:var(--chrome-text-muted);display:flex;align-items:center;justify-content:space-between;padding:0 16px;font-size:11px;border-top:1px solid var(--chrome-border);gap:12px;transition:background .2s,color .2s,border-color .2s}
+.sb-group{display:flex;align-items:center;gap:14px;min-width:0}
+.sb-mid{flex:1;justify-content:center}
+.sb-right{justify-content:flex-end}
+.sb-item{display:flex;align-items:center;gap:6px;white-space:nowrap}
+.sb-item svg{flex-shrink:0}
+.sb-dot{width:7px;height:7px;border-radius:50%;background:#2fae6e;flex-shrink:0;box-shadow:0 0 0 3px rgba(47,174,110,.18)}
+.sb-tag{background:var(--chrome-hover-bg);color:var(--chrome-icon);padding:1px 7px;border-radius:99px;font-size:10px;font-weight:600;letter-spacing:.3px}
+.sb-div{width:1px;height:12px;background:var(--chrome-border);flex-shrink:0}
+.sb-mono{font-family:"IBM Plex Mono",monospace;color:var(--chrome-icon)}
+</style></head>
+<body>
+
+<header class="icon-view">
+  <div class="brand">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6"><path d="M12 2l8 3.5v6c0 5-3.4 8.7-8 10.5-4.6-1.8-8-5.5-8-10.5v-6L12 2z"/><path d="M8.5 12l2.3 2.3L15.5 9.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <div class="brand-text">Sentinel KYC<small>Compliance Console</small></div>
+  </div>
+
+  <div class="hdr-center">
+    <div class="global-search">
+      <select id="searchType" aria-label="Search by">
+        <option>Customer Name</option>
+        <option>National ID</option>
+        <option>Passport</option>
+        <option>Phone</option>
+        <option>Case Number</option>
+      </select>
+      <input id="searchInput" type="text" placeholder="Search by customer name…" onkeydown="if(event.key==='Enter')runSearch()">
+      <div class="go" tabindex="0" aria-label="Search" onclick="runSearch()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3" stroke-linecap="round"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="hdr-right">
+    <div class="hdr-item" id="ddApps">
+      <div class="hdr-pill" tabindex="0" onclick="toggleDD('ddApps')">
+        <span class="icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="5" cy="5" r="1.6"/><circle cx="12" cy="5" r="1.6"/><circle cx="19" cy="5" r="1.6"/><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/><circle cx="5" cy="19" r="1.6"/><circle cx="12" cy="19" r="1.6"/><circle cx="19" cy="19" r="1.6"/></svg></span>
+        <span class="lbl-text">Apps</span>
+        <svg class="chev" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="hdr-dropdown apps-panel">
+        <div class="dd-head">Your Apps <span class="sso-tag">SSO</span></div>
+        <div class="apps-grid">
+          <div class="app-tile" onclick="launchApp('Case Management')"><span class="tile-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z" stroke-linejoin="round"/></svg></span><span class="name">Case Management</span></div>
+          <div class="app-tile" onclick="launchApp('Document Vault')"><span class="tile-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2h9l5 5v13a2 2 0 01-2 2H6a2 2 0 01-2-2V4a2 2 0 012-2z" stroke-linejoin="round"/><path d="M14 2v5h5" stroke-linejoin="round"/></svg></span><span class="name">Document Vault</span></div>
+          <div class="app-tile" onclick="launchApp('Risk Analytics')"><span class="tile-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20V11M10 20V4M16 20v-7" stroke-linecap="round"/></svg></span><span class="name">Risk Analytics</span></div>
+          <div class="app-tile" onclick="launchApp('HR Portal')"><span class="tile-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3"/><path d="M3.5 20c.5-3.5 2.8-5.5 5.5-5.5s5 2 5.5 5.5" stroke-linecap="round"/><circle cx="17" cy="9" r="2.3"/><path d="M15.8 14.2c2.2.4 3.6 2 4 5.3" stroke-linecap="round"/></svg></span><span class="name">HR Portal</span></div>
+          <div class="app-tile" onclick="launchApp('Loan Origination')"><span class="tile-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="7" cy="7" r="2.3"/><circle cx="17" cy="17" r="2.3"/><path d="M18 6L6 18" stroke-linecap="round"/></svg></span><span class="name">Loan Origination</span></div>
+          <div class="app-tile" onclick="launchApp('Audit Console')"><span class="tile-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3" stroke-linecap="round"/></svg></span><span class="name">Audit Console</span></div>
+          <div class="app-tile" onclick="launchApp('Reporting Suite')"><span class="tile-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 17l5-5 4 4 8-9" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="name">Reporting Suite</span></div>
+          <div class="app-tile" onclick="launchApp('Admin Portal')"><span class="tile-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 13.5c.1-.5.1-1 0-1.5l1.7-1.3-1.5-2.6-2 .6a6.4 6.4 0 00-1.3-.8l-.3-2.1H10l-.3 2.1c-.5.2-.9.5-1.3.8l-2-.6-1.5 2.6 1.7 1.3c-.1.5-.1 1 0 1.5L5 14.8l1.5 2.6 2-.6c.4.3.8.6 1.3.8l.3 2.1h4l.3-2.1c.5-.2.9-.5 1.3-.8l2 .6 1.5-2.6-1.7-1.3z" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="name">Admin Portal</span></div>
+          <div class="app-tile" onclick="launchApp('Helpdesk')"><span class="tile-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 115 .5c0 1.5-2 1.8-2 3.3" stroke-linecap="round"/><circle cx="12" cy="17.3" r=".9" fill="currentColor" stroke="none"/></svg></span><span class="name">Helpdesk</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hdr-item" id="ddNotif">
+      <div class="hdr-pill" tabindex="0" onclick="toggleDD('ddNotif')">
+        <span class="icon-wrap">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.7 21a2 2 0 01-3.4 0" stroke-linecap="round"/></svg>
+          <span class="badge">3</span>
+        </span>
+        <span class="lbl-text">Alerts</span>
+        <svg class="chev" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="hdr-dropdown">
+        <div class="dd-head">Notifications</div>
+        <div class="opt"><span>⚠️</span> High-risk match flagged — K-10432</div>
+        <div class="opt"><span>📄</span> Document expiring — K-10391</div>
+        <div class="opt"><span>✅</span> KYC approved — K-10439</div>
+      </div>
+    </div>
+
+    <div class="hdr-item" id="ddTasks">
+      <div class="hdr-pill" tabindex="0" onclick="toggleDD('ddTasks')">
+        <span class="icon-wrap">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="7" y="3" width="10" height="4" rx="1"/><path d="M7 5H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-1" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 13l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="badge">7</span>
+        </span>
+        <span class="lbl-text">Tasks</span>
+        <svg class="chev" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="hdr-dropdown">
+        <div class="dd-head">Pending Tasks</div>
+        <div class="opt">Review K-10441 <span class="meta">Today</span></div>
+        <div class="opt">Approve K-10432 <span class="meta">Today</span></div>
+        <div class="opt">Verify document set <span class="meta">Tomorrow</span></div>
+      </div>
+    </div>
+
+    <div class="hdr-item" id="ddLang">
+      <div class="hdr-pill" tabindex="0" onclick="toggleDD('ddLang')">
+        <span class="icon-wrap"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18" stroke-linecap="round"/></svg></span>
+        <span id="langLabel" class="lbl-text">English</span>
+        <svg class="chev" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="hdr-dropdown">
+        <div class="opt active" onclick="selectLang('EN','English')">English <span class="meta">EN</span></div>
+        <div class="opt" onclick="selectLang('BN','বাংলা')">বাংলা <span class="meta">BN</span></div>
+        <div class="opt" onclick="selectLang('AR','العربية')">العربية <span class="meta">AR</span></div>
+      </div>
+    </div>
+
+    <div class="hdr-item" id="ddTheme">
+      <div class="hdr-pill" tabindex="0" onclick="toggleDD('ddTheme')">
+        <span class="icon-wrap" id="themeIcon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19" stroke-linecap="round"/></svg></span>
+        <span id="themeLabel" class="lbl-text">Light</span>
+        <svg class="chev" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="hdr-dropdown">
+        <div class="dd-head">Theme</div>
+        <div class="opt active" data-theme="light" onclick="selectTheme('light')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19" stroke-linecap="round"/></svg> Light</div>
+        <div class="opt" data-theme="dark" onclick="selectTheme('dark')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12.5A9 9 0 1111.5 3a7 7 0 009.5 9.5z" stroke-linecap="round" stroke-linejoin="round"/></svg> Dark</div>
+        <div class="opt" data-theme="blue" onclick="selectTheme('blue')"><span class="swatch" style="background:#2c5aa0"></span> Blue Enterprise</div>
+        <div class="opt" data-theme="navy" onclick="selectTheme('navy')"><span class="swatch" style="background:#0b1a33;box-shadow:0 0 0 2px var(--chrome-bg),0 0 0 3px var(--chrome-border),inset 0 0 0 5px #c99a3b"></span> Navy Banking</div>
+        <div class="opt" data-theme="green" onclick="selectTheme('green')"><span class="swatch" style="background:#1c7a4c"></span> Green Compliance</div>
+        <div class="opt" data-theme="purple" onclick="selectTheme('purple')"><span class="swatch" style="background:#6b3fa0"></span> Purple Corporate</div>
+        <div class="opt" data-theme="gray" onclick="selectTheme('gray')"><span class="swatch" style="background:#3f4a54"></span> Gray Professional</div>
+      </div>
+    </div>
+
+
+    <div class="hdr-item" id="ddTenant">
+      <div class="hdr-pill" tabindex="0" onclick="toggleDD('ddTenant')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 21V6a1 1 0 011-1h6a1 1 0 011 1v15M4 21h16M12 21v-6h4a1 1 0 011 1v5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 9h.01M8 12.5h.01M8 16h.01" stroke-linecap="round"/></svg>
+        <span id="tenantLabel" class="lbl-text">Prime Bank Ltd.</span>
+        <svg class="chev" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="hdr-dropdown">
+        <div class="dd-head">Switch Tenant</div>
+        <div class="opt active" onclick="selectTenant('Prime Bank Ltd.')">Prime Bank Ltd.</div>
+        <div class="opt" onclick="selectTenant('Northgate Finance')">Northgate Finance</div>
+        <div class="opt" onclick="selectTenant('Meridian Trust Co.')">Meridian Trust Co.</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="hdr-item" id="ddProfile">
+      <div class="avatar" tabindex="0" aria-label="User Profile" onclick="toggleDD('ddProfile')">AO</div>
+      <div class="hdr-dropdown">
+        <div class="dd-head">Signed in as</div>
+        <div class="opt" style="cursor:default"><b>Amina Osei</b></div>
+        <div class="opt" style="cursor:default;color:var(--text-muted)">Compliance Officer</div>
+        <div class="opt" onclick="closeAllDD()">View Profile</div>
+        <div class="opt" onclick="closeAllDD()">Account Settings</div>
+      </div>
+    </div>
+
+    <div class="hdr-btn" tabindex="0" aria-label="Logout" onclick="logout()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 17l5-5-5-5M21 12H9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+  </div>
+</header>
+
+<div class="app">
+  <div id="rail" class="rail">
+    <div class="toggle" tabindex="0" onclick="tg()" onkeydown="if(event.key==='Enter')tg()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round"/></svg>
+    </div>
+    <div id="icons"></div>
+  </div>
+
+  <div class="main" id="main">
+    <div id="panelFlyout"></div>
+
+    <div id="bc">🏠 <span>Home</span></div>
+    <h2 id="ttl">Dashboard</h2>
+
+    <div class="cards">
+      <div class="card"><div class="lbl">Customers</div><div class="val mono">15,240</div></div>
+      <div class="card warn"><div class="lbl">Pending Review</div><div class="val mono">124</div></div>
+      <div class="card risk"><div class="lbl">Elevated Risk</div><div class="val mono">18</div></div>
+    </div>
+
+    <div class="panel-head"><h3>Recent Records</h3></div>
+    <div id="content">
+      <table>
+        <tr><th>ID</th><th>Name</th><th>Status</th></tr>
+        <tr><td class="id">K-10441</td><td>John Ferreira</td><td><span class="pill pending">Pending</span></td></tr>
+        <tr><td class="id">K-10439</td><td>Maria Chen</td><td><span class="pill approved">Approved</span></td></tr>
+        <tr><td class="id">K-10432</td><td>Ahsan Karim</td><td><span class="pill risk">Elevated Risk</span></td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="statusbar">
+  <div class="sb-group sb-left">
+    <div class="sb-item"><span class="sb-dot"></span> System Operational</div>
+    <div class="sb-div"></div>
+    <div class="sb-item">Env: <span class="sb-tag">Production</span></div>
+  </div>
+
+  <div class="sb-group sb-mid">
+    <div class="sb-item">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 12a8 8 0 10-2.7 6M20 6v6h-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Last synced <span id="syncTime" class="sb-mono">just now</span>
+    </div>
+    <div class="sb-div"></div>
+    <div class="sb-item">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 10h8M8 14h5" stroke-linecap="round"/></svg>
+      Audit Logging Active
+    </div>
+  </div>
+
+  <div class="sb-group sb-right">
+    <div class="sb-item">Session expires in <span class="sb-mono">14:52</span></div>
+    <div class="sb-div"></div>
+    <div class="sb-item sb-mono" id="clock">--:--:--</div>
+    <div class="sb-div"></div>
+    <div class="sb-item">v2.4.1</div>
+  </div>
+</div>
+
+<script>
+let manualExpanded = false;   // rail width — controlled ONLY by the hamburger toggle
+let openModule = null;        // which module's children are shown inline — controlled ONLY by clicking that module row
+let pinned = false;
+let lastCat = null;           // {i, cat} of the currently open flyout, if any
+
+const arrowIcon = '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M9 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+const svgIcons = [
+  '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 11l8-7 8 7v9a1 1 0 01-1 1h-4v-6H9v6H5a1 1 0 01-1-1z" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3"/><path d="M3.5 20c.5-3.5 2.8-5.5 5.5-5.5s5 2 5.5 5.5" stroke-linecap="round"/><circle cx="17" cy="9" r="2.3"/><path d="M15.8 14.2c2.2.4 3.6 2 4 5.3" stroke-linecap="round"/></svg>',
+  '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="6" width="18" height="13" rx="2"/><circle cx="8.5" cy="12" r="2"/><path d="M13 11h5M13 14h5" stroke-linecap="round"/></svg>',
+  '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 13.5c.1-.5.1-1 0-1.5l1.7-1.3-1.5-2.6-2 .6a6.4 6.4 0 00-1.3-.8l-.3-2.1H10l-.3 2.1c-.5.2-.9.5-1.3.8l-2-.6-1.5 2.6 1.7 1.3c-.1.5-.1 1 0 1.5L5 14.8l1.5 2.6 2-.6c.4.3.8.6 1.3.8l.3 2.1h4l.3-2.1c.5-.2.9-.5 1.3-.8l2 .6 1.5-2.6-1.7-1.3z" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+];
+
+const catIcons = {
+  Operation: '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z" stroke-linejoin="round" stroke-linecap="round"/></svg>',
+  Setup: '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="2.6"/><path d="M19.4 13.5c.1-.5.1-1 0-1.5l1.7-1.3-1.5-2.6-2 .6a6.4 6.4 0 00-1.3-.8l-.3-2.1H10l-.3 2.1c-.5.2-.9.5-1.3.8l-2-.6-1.5 2.6 1.7 1.3c-.1.5-.1 1 0 1.5L5 14.8l1.5 2.6 2-.6c.4.3.8.6 1.3.8l.3 2.1h4l.3-2.1c.5-.2.9-.5 1.3-.8l2 .6 1.5-2.6-1.7-1.3z" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  Report: '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20V11M10 20V4M16 20v-7" stroke-linecap="round"/></svg>'
+};
+
+const mods = [
+  ['Dashboard', { Operation: ['Overview','Tasks'] }],
+  ['Customers', { Operation: ['List','New','Import'], Setup: ['Groups','Blacklist','Merge'], Report: ['Export','Archive'] }],
+  ['KYC', { Operation: ['New','Pending','Review'], Setup: ['Workflow'], Report: ['Approved','Rejected','History'] }],
+  ['Admin', { Operation: ['Users','Roles','Permissions'], Setup: ['API','Themes','Backup'], Report: ['Jobs'] }]
+];
+
+const icons = document.getElementById('icons');
+
+function renderRail() {
+  rail.className = 'rail' + (manualExpanded ? ' exp' : '');
+  icons.innerHTML = mods.map((m, i) => {
+    const isOpen = openModule === i;
+    let html = '<div class="module-row' + (isOpen ? ' open' : '') + '" tabindex="0" ' +
+      'onclick="toggleModule(' + i + ')" onkeydown="if(event.key===\'Enter\')toggleModule(' + i + ')">' +
+      '<span class="arrow">' + arrowIcon + '</span>' + svgIcons[i] +
+      '<span class="lbl">' + m[0] + '</span></div>';
+    if (isOpen) {
+      html += Object.keys(m[1]).map(cat => {
+        const active = lastCat && lastCat.i === i && lastCat.cat === cat;
+        return '<div class="child-row' + (active ? ' active' : '') + '" tabindex="0" ' +
+          'onmouseenter="openFlyout(' + i + ',\'' + cat + '\',this)" ' +
+          'onclick="openFlyout(' + i + ',\'' + cat + '\',this)" onkeydown="if(event.key===\'Enter\')openFlyout(' + i + ',\'' + cat + '\',this)">' +
+          catIcons[cat] + '<span class="lbl">' + cat + '</span></div>';
+      }).join('');
+    }
+    return html;
+  }).join('');
+}
+
+// The ONLY control for rail width — also drives the header's icon view / detail view
+function tg() {
+  manualExpanded = !manualExpanded;
+  renderRail();
+  document.querySelector('header').classList.toggle('icon-view', !manualExpanded);
+  if (panelFlyout.classList.contains('open') && lastCat) {
+    const el = document.querySelector('.child-row.active');
+    if (el) requestAnimationFrame(() => positionFlyout(el));
+  }
+}
+
+// The ONLY control for expanding/collapsing a module's children
+function toggleModule(i) {
+  const wasOpen = openModule === i;
+  openModule = wasOpen ? null : i;
+  if (openModule !== i) { closeFlyout(); lastCat = null; }
+  renderRail();
+}
+
+function openFlyout(i, cat, el) {
+  clearTimeout(closeTimer);
+  lastCat = { i, cat };
+  pinned = true;
+  renderRail();
+  const activeEl = document.querySelector('.child-row.active');
+  panelFlyout.classList.add('open');
+  panelFlyout.innerHTML = '<div class="cat">' + cat + '</div>' +
+    mods[i][1][cat].map(s => '<div class="item" tabindex="0" onclick="sel(\'' + mods[i][0] + ' / ' + cat + '\',\'' + s + '\')">' + s + '</div>').join('');
+  positionFlyout(activeEl || el);
+}
+
+let closeTimer = null;
+function scheduleClose() {
+  clearTimeout(closeTimer);
+  closeTimer = setTimeout(() => {
+    pinned = false;
+    lastCat = null;
+    closeFlyout();
+    renderRail();
+  }, 200);
+}
+icons.addEventListener('mouseleave', scheduleClose);
+panelFlyout.addEventListener('mouseleave', scheduleClose);
+icons.addEventListener('mouseenter', () => clearTimeout(closeTimer));
+panelFlyout.addEventListener('mouseenter', () => clearTimeout(closeTimer));
+
+function positionFlyout(anchorEl) {
+  if (!anchorEl) return;
+  const anchorRect = anchorEl.getBoundingClientRect();
+  const railWidth = rail.getBoundingClientRect().width;
+  const headerHeight = document.querySelector('header').offsetHeight;
+  panelFlyout.style.left = railWidth + 'px';
+  panelFlyout.style.top = anchorRect.top + 'px';
+  requestAnimationFrame(() => {
+    const h = panelFlyout.offsetHeight;
+    const maxTop = window.innerHeight - h - 8;
+    panelFlyout.style.top = Math.max(headerHeight, Math.min(anchorRect.top, maxTop)) + 'px';
+  });
+}
+
+document.addEventListener('click', (e) => {
+  if (pinned && !panelFlyout.contains(e.target) && !icons.contains(e.target)) {
+    pinned = false;
+    lastCat = null;
+    closeFlyout();
+    renderRail();
+  }
+});
+
+function closeFlyout() {
+  panelFlyout.classList.remove('open');
+}
+
+function sel(path, s) {
+  bc.innerHTML = '🏠 <span>Home</span> <span class="sep">/</span> <span>' + path.replace(' / ', '</span> <span class="sep">/</span> <span>') + '</span> <span class="sep">/</span> <span>' + s + '</span>';
+  ttl.textContent = s;
+  pinned = false;
+  closeFlyout();
+}
+
+/* ---------- header ---------- */
+
+function toggleDD(id) {
+  const el = document.getElementById(id);
+  const wasOpen = el.classList.contains('open');
+  closeAllDD();
+  if (!wasOpen) el.classList.add('open');
+}
+function closeAllDD() {
+  document.querySelectorAll('.hdr-right .hdr-item').forEach(el => el.classList.remove('open'));
+}
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.hdr-item')) closeAllDD();
+});
+
+function selectLang(code, label) {
+  langLabel.textContent = label;
+  document.querySelectorAll('#ddLang .opt').forEach(o => o.classList.toggle('active', o.textContent.trim().startsWith(label)));
+  closeAllDD();
+}
+
+function selectTenant(name) {
+  tenantLabel.textContent = name;
+  document.querySelectorAll('#ddTenant .opt').forEach(o => o.classList.toggle('active', o.textContent.trim() === name));
+  closeAllDD();
+}
+
+const sunIcon = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19" stroke-linecap="round"/></svg>';
+const moonIcon = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12.5A9 9 0 1111.5 3a7 7 0 009.5 9.5z" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const swatch = (hex) => '<span class="swatch" style="background:' + hex + '"></span>';
+
+const THEMES = {
+  light:  { icon: sunIcon, label: 'Light',            dark: false },
+  dark:   { icon: moonIcon, label: 'Dark',             dark: true  },
+  blue:   { icon: swatch('#2c5aa0'), label: 'Blue Enterprise',  dark: false },
+  navy:   { icon: '<span class="swatch" style="background:#0b1a33;box-shadow:0 0 0 2px var(--chrome-bg),0 0 0 3px var(--chrome-border),inset 0 0 0 5px #c99a3b"></span>', label: 'Navy Banking', dark: true },
+  green:  { icon: swatch('#1c7a4c'), label: 'Green Compliance', dark: false },
+  purple: { icon: swatch('#6b3fa0'), label: 'Purple Corporate', dark: false },
+  gray:   { icon: swatch('#3f4a54'), label: 'Gray Professional', dark: false }
+};
+
+function selectTheme(id) {
+  const t = THEMES[id];
+  document.body.dataset.theme = id;
+  document.body.classList.toggle('dark', t.dark);
+  themeIcon.innerHTML = t.icon;
+  themeLabel.textContent = t.label;
+  document.querySelectorAll('#ddTheme .opt').forEach(o => o.classList.toggle('active', o.dataset.theme === id));
+  closeAllDD();
+}
+
+const typePlaceholders = {
+  'Customer Name': 'Search by customer name…',
+  'National ID': 'Search by national ID…',
+  'Passport': 'Search by passport number…',
+  'Phone': 'Search by phone number…',
+  'Case Number': 'Search by case number…'
+};
+searchType.addEventListener('change', () => { searchInput.placeholder = typePlaceholders[searchType.value]; });
+
+function runSearch() {
+  if (!manualExpanded) { tg(); searchInput.focus(); return; }
+  const q = searchInput.value.trim();
+  if (!q) { searchInput.focus(); return; }
+  bc.innerHTML = '🏠 <span>Home</span> <span class="sep">/</span> <span>Search</span>';
+  ttl.textContent = 'Results for "' + q + '" — ' + searchType.value;
+}
+
+function launchApp(name) {
+  closeAllDD();
+  bc.innerHTML = '🏠 <span>Home</span> <span class="sep">/</span> <span>Apps</span>';
+  ttl.textContent = 'Redirecting to ' + name + ' via SSO…';
+}
+
+function logout() {
+  if (confirm('Log out of Sentinel KYC?')) {
+    bc.innerHTML = '🏠 <span>Home</span>';
+    ttl.textContent = 'Signed out';
+    closeAllDD();
+  }
+}
+
+function updateClock() {
+  clock.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+renderRail();
+</script>
+</body></html>

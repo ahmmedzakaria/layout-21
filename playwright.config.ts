@@ -3,11 +3,11 @@ import { defineConfig } from '@playwright/test';
 export default defineConfig({
   testDir: './e2e',
   webServer: {
-    command: 'npm run start -- --port 4200',
-    url: 'http://localhost:4200',
+    command: 'npm run start',
+    url: 'http://localhost:5200',
     reuseExistingServer: true
   },
   use: {
-    baseURL: 'http://localhost:4200'
+    baseURL: 'http://localhost:5200'
   }
 });

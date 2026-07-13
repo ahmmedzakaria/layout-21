@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { UpperCasePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 
@@ -31,7 +32,7 @@ const SEARCH_TYPES = ['Customer Name', 'National ID', 'Passport', 'Phone', 'Case
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [FormsModule, TranslocoModule, IconComponent, HeaderDropdownComponent],
+  imports: [FormsModule, TranslocoModule, UpperCasePipe, IconComponent, HeaderDropdownComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

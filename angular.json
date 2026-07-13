@@ -43,6 +43,9 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
+          "options": {
+            "port": 5200
+          },
           "configurations": {
             "production": { "buildTarget": "sentinel-kyc:build:production" },
             "development": { "buildTarget": "sentinel-kyc:build:development" }

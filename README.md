@@ -19,7 +19,7 @@ since dependency resolution requires network/npm access. Before running it:
 
 ```bash
 npm install
-npm start        # ng serve
+npm start        # ng serve on http://localhost:5200
 npm test         # Vitest unit tests
 npm run test:e2e # Playwright e2e (starts the dev server automatically)
 npm run lint

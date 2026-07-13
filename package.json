@@ -32,7 +32,7 @@
     "eslint": "^9.0.0",
     "prettier": "^3.4.0",
     "typescript": "~5.9.0",
-    "vitest": "^2.1.0"
+    "vitest": "^4.0.8"
   },
   "//": "Exact patch versions should be resolved by `ng new --package-manager=npm` / `npm install` at scaffold time — see README."
 }
