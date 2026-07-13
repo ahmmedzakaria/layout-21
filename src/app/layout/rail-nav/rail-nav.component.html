@@ -1,0 +1,61 @@
+<nav class="rail" [class.exp]="rail.expanded()">
+  <button type="button" class="toggle focus-ring" (click)="rail.toggle()" aria-label="Toggle navigation width">
+    <app-icon name="hamburger" />
+  </button>
+
+  <div class="rail-body">
+    @for (mod of modules; track mod.id) {
+      <div class="module-wrap">
+        <button
+          type="button"
+          class="module-row focus-ring"
+          [class.open]="rail.openModuleId() === mod.id"
+          (click)="rail.toggleModule(mod.id)"
+        >
+          <span class="arrow"><app-icon name="chevron-right" [size]="10" /></span>
+          <app-icon [name]="mod.icon" />
+          <span class="lbl">{{ 'nav.' + mod.id | transloco }}</span>
+        </button>
+
+        @if (rail.openModuleId() === mod.id) {
+          @for (cat of categories(mod.id); track cat) {
+            <div
+              class="child-row"
+              cdkOverlayOrigin
+              #catOrigin="cdkOverlayOrigin"
+              tabindex="0"
+              (mouseenter)="openCategory(mod.id, cat, catOrigin)"
+              (click)="openCategory(mod.id, cat, catOrigin)"
+              (mouseleave)="flyout.scheduleClose()"
+            >
+              <app-icon [name]="categoryIcon[cat]" [size]="13" />
+              <span class="lbl">{{ cat }}</span>
+            </div>
+          }
+        }
+      </div>
+    }
+  </div>
+</nav>
+
+@if (flyout.origin(); as origin) {
+  <ng-template
+    cdkConnectedOverlay
+    [cdkConnectedOverlayOrigin]="origin"
+    [cdkConnectedOverlayOpen]="!!flyout.content()"
+    [cdkConnectedOverlayPositions]="[
+      { originX: 'end', originY: 'top', overlayX: 'start', overlayY: 'top', offsetX: 0 }
+    ]"
+  >
+    @if (flyout.content(); as content) {
+      <div class="rail-flyout" (mouseenter)="flyout.cancelClose()" (mouseleave)="flyout.scheduleClose()">
+        <div class="cat">{{ content.category }}</div>
+        @for (item of content.items; track item.path) {
+          <button type="button" class="item focus-ring" (click)="selectItem(content.moduleId, item.path)">
+            {{ item.label }}
+          </button>
+        }
+      </div>
+    }
+  </ng-template>
+}
