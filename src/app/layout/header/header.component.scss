@@ -214,7 +214,13 @@ header.icon-view .hdr-pill {
 }
 
 // Dropdown panel content (rendered inside HeaderDropdownComponent's overlay)
-:host ::ng-deep .hdr-dropdown {
+// NOTE: this content is rendered inside HeaderDropdownComponent's own template
+// and then portaled by CDK Overlay to a global `.cdk-overlay-container` appended
+// to <body> — it is NOT a DOM descendant of <app-header> anymore. `:host ::ng-deep`
+// requires that ancestry to exist, so it silently never matched and these rules
+// never applied. Dropping `:host` makes this genuinely global CSS instead, which
+// is what portaled overlay content actually needs.
+::ng-deep .hdr-dropdown {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 9px;
