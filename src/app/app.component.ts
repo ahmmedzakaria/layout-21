@@ -4,12 +4,13 @@ import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './layout/header/header.component';
 import { RailNavComponent } from './layout/rail-nav/rail-nav.component';
 import { StatusBarComponent } from './layout/status-bar/status-bar.component';
+import { BreadcrumbComponent } from './shared/breadcrumb/breadcrumb.component';
 import { DirectionService } from './core/services/direction.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, RailNavComponent, StatusBarComponent],
+  imports: [RouterOutlet, HeaderComponent, RailNavComponent, StatusBarComponent, BreadcrumbComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

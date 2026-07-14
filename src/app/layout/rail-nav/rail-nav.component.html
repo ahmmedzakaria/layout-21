@@ -51,7 +51,7 @@
       <div class="rail-flyout" (mouseenter)="flyout.cancelClose()" (mouseleave)="flyout.scheduleClose()">
         <div class="cat">{{ content.category }}</div>
         @for (item of content.items; track item.path) {
-          <button type="button" class="item focus-ring" (click)="selectItem(content.moduleId, item.path)">
+          <button type="button" class="item focus-ring" (click)="selectItem(content, item)">
             {{ item.label }}
           </button>
         }
