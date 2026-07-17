@@ -2,7 +2,7 @@
 <html lang="en"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>NexaCore Enterprise</title>
+<title>NexaCore</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -113,13 +113,6 @@ header{height:58px;background:var(--chrome-bg);color:var(--chrome-text);display:
 .global-search input::placeholder{color:var(--chrome-search-placeholder)}
 .global-search .go{width:32px;height:32px;margin-right:3px;border-radius:7px;display:flex;align-items:center;justify-content:center;color:var(--chrome-icon);cursor:pointer;flex-shrink:0;transition:background .15s,color .15s}
 .global-search .go:hover{background:var(--chrome-hover-bg);color:var(--chrome-text)}
-.quick-nav{height:38px;width:190px;display:flex;align-items:center;gap:6px;background:var(--chrome-search-bg);border:1px solid var(--chrome-search-border);border-radius:9px;padding:0 3px 0 10px;flex-shrink:0}
-.quick-nav .tag{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:700;color:var(--accent);letter-spacing:.3px}
-.quick-nav input{width:100%;min-width:0;background:transparent;border:none;outline:none;color:var(--chrome-search-text);font-size:12.5px;font-family:"IBM Plex Mono",monospace;text-transform:uppercase}
-.quick-nav input::placeholder{color:var(--chrome-search-placeholder);text-transform:none;font-family:"Public Sans",Arial,sans-serif}
-.quick-nav .go{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;color:var(--chrome-icon);cursor:pointer;flex-shrink:0}
-.quick-nav .go:hover{background:var(--chrome-hover-bg);color:var(--chrome-text)}
-
 .hdr-right{display:flex;align-items:center;gap:4px;flex-shrink:0}
 .hdr-item{position:relative}
 .hdr-btn{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--chrome-icon);transition:background .15s,color .15s;position:relative}
@@ -133,16 +126,6 @@ header{height:58px;background:var(--chrome-bg);color:var(--chrome-text);display:
 /* header icon view — mirrors the collapsed rail state */
 header.icon-view{transition:background .2s,color .2s,border-color .2s}
 header.icon-view .brand .brand-text{display:none}
-header.icon-view .global-search{max-width:38px;padding-left:0;justify-content:center;background:transparent;border-color:transparent}
-header.icon-view .global-search select,
-header.icon-view .global-search input{display:none}
-header.icon-view .global-search .go{margin-right:0}
-header.icon-view .global-search:hover{background:var(--chrome-hover-bg);border-color:var(--chrome-search-border)}
-header.icon-view .quick-nav{width:38px;padding:0;justify-content:center;background:transparent;border-color:transparent}
-header.icon-view .quick-nav .tag,
-header.icon-view .quick-nav input{display:none}
-header.icon-view .quick-nav .go{width:36px;height:36px}
-header.icon-view .quick-nav:hover{background:var(--chrome-hover-bg);border-color:var(--chrome-search-border)}
 header.icon-view .hdr-pill{width:36px;padding:0;justify-content:center}
 header.icon-view .hdr-pill .lbl-text,
 header.icon-view .hdr-pill .chev{display:none}
@@ -184,14 +167,11 @@ header:not(.icon-view) .global-search{cursor:default}
 .toggle{height:44px;display:flex;align-items:center;gap:12px;padding:0 20px;cursor:pointer;border-bottom:1px solid var(--chrome-border);color:var(--chrome-text-muted);flex-shrink:0}
 .toggle svg{flex-shrink:0}
 .toggle:hover{color:var(--chrome-text)}
-.toggle .toggle-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;opacity:0;transition:opacity .15s;white-space:nowrap}
-.rail.detail .toggle .toggle-label{opacity:1}
 .nav-toggle-btn{margin-left:auto;height:28px;color:var(--chrome-text-muted);display:none;align-items:center;gap:6px;padding:0;font:inherit;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;cursor:pointer}
 .rail.detail .nav-toggle-btn{display:flex}
 .nav-toggle-btn:hover{color:var(--chrome-text)}
 .nav-toggle-btn svg{width:16px;height:16px}
 .rail:not(.detail) .toggle{justify-content:center;padding:0;gap:0}
-.rail:not(.detail) .toggle .toggle-label{display:none}
 
 .rail-scroll{flex:1;min-height:0;height:100%;overflow-y:auto;overflow-x:hidden;padding:4px 0 10px;overscroll-behavior:contain}
 .module-row{min-height:42px;display:flex;align-items:center;gap:9px;padding:0 10px;cursor:pointer;white-space:nowrap;color:var(--chrome-icon);border-left:3px solid transparent;transition:background .15s,border-color .15s,color .15s}
@@ -275,7 +255,7 @@ td.id{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--text-mu
 .mega-subitem:hover,.mega-subitem.active{background:var(--surface-2);color:var(--text)}
 .mega-subitem .feature-label{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
-.module-row:focus-visible,.nav-item:focus-visible,.mega-subitem:focus-visible,.status-favorite:focus-visible,.hdr-btn:focus-visible,.hdr-pill:focus-visible,.avatar:focus-visible,.global-search .go:focus-visible,.quick-nav .go:focus-visible,.toggle:focus-visible{outline:2px solid var(--focus);outline-offset:-2px}
+.module-row:focus-visible,.nav-item:focus-visible,.mega-subitem:focus-visible,.status-favorite:focus-visible,.hdr-btn:focus-visible,.hdr-pill:focus-visible,.avatar:focus-visible,.global-search .go:focus-visible,.toggle:focus-visible{outline:2px solid var(--focus);outline-offset:-2px}
 
 /* status bar */
 .statusbar{height:28px;flex-shrink:0;background:var(--chrome-bg);color:var(--chrome-text-muted);display:flex;align-items:center;justify-content:space-between;padding:0 16px;font-size:11px;border-top:1px solid var(--chrome-border);gap:12px;transition:background .2s,color .2s,border-color .2s}
@@ -304,7 +284,7 @@ td.id{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--text-mu
       <circle class="logo-node" cx="22" cy="22" r="2"/>
       <circle class="logo-node" cx="22" cy="10" r="1.6"/>
     </svg>
-    <div class="brand-text">NexaCore Enterprise<small>Navigation Workspace</small></div>
+    <div class="brand-text">NexaCore<small>Navigation Workspace</small></div>
   </div>
 
   <div class="hdr-center">
@@ -315,18 +295,12 @@ td.id{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--text-mu
         <option>Passport</option>
         <option>Phone</option>
         <option>Case Number</option>
+        <option>T Code</option>
       </select>
       <input id="searchInput" type="text" placeholder="Search by customer name…" onkeydown="if(event.key==='Enter')runSearch()">
+      <datalist id="tcodeList"></datalist>
       <div class="go" tabindex="0" aria-label="Search" onclick="runSearch()">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3" stroke-linecap="round"/></svg>
-      </div>
-    </div>
-    <div class="quick-nav">
-      <span class="tag">T</span>
-      <input id="tcodeInput" list="tcodeList" type="text" placeholder="T-code" aria-label="T-code quick navigation" onkeydown="if(event.key==='Enter')runTCode()">
-      <datalist id="tcodeList"></datalist>
-      <div class="go" tabindex="0" aria-label="Open T-code" onclick="runTCode()" onkeydown="if(event.key==='Enter')runTCode()">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
     </div>
   </div>
@@ -459,11 +433,11 @@ td.id{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--text-mu
         <div class="opt" style="cursor:default;color:var(--text-muted)">Compliance Officer</div>
         <div class="opt" onclick="closeAllDD()">View Profile</div>
         <div class="opt" onclick="closeAllDD()">Account Settings</div>
+        <div class="opt" onclick="logout()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 17l5-5-5-5M21 12H9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Sign out
+        </div>
       </div>
-    </div>
-
-    <div class="hdr-btn" tabindex="0" aria-label="Logout" onclick="logout()">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 17l5-5-5-5M21 12H9" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </div>
   </div>
 </header>
@@ -472,9 +446,8 @@ td.id{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--text-mu
   <div id="rail" class="rail detail">
     <div class="toggle" tabindex="0" onclick="tg()" onkeydown="if(event.key==='Enter')tg()">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round"/></svg>
-      <span class="toggle-label">Icon</span>
       <span id="navToggleBtn" class="nav-toggle-btn" role="button" tabindex="0" aria-label="Expand navigation" onclick="event.stopPropagation();toggleEnterpriseNavigation()" onkeydown="event.stopPropagation();if(event.key==='Enter')toggleEnterpriseNavigation()">
-        <span id="navToggleIcon"></span><span id="navToggleText">Expand</span>
+        <span id="navToggleIcon"></span>
       </span>
     </div>
     <div id="icons"></div>
@@ -759,6 +732,7 @@ const navigationTree = [
 const icons = document.getElementById('icons');
 const navOverlay = document.getElementById('navOverlay');
 const favoriteStorageKey = 'nexacore.favorite.navigation';
+const tcodeMinSearchChars = 2;
 let quickNavItems = [];
 let quickNavByCode = new Map();
 let quickNavByPath = new Map();
@@ -813,33 +787,89 @@ function initQuickNavigation() {
   });
   quickNavByCode = new Map(quickNavItems.map(item => [normalizeCode(item.code), item]));
   quickNavByPath = new Map(quickNavItems.map(item => [item.pathKey, item]));
-  renderTCodeList();
+  searchInput.addEventListener('input', updateTCodeListForSearch);
+  searchType.addEventListener('change', updateSearchMode);
+  updateSearchMode();
   loadFavorites();
   renderFavorites();
 }
 
-function renderTCodeList() {
+function isTCodeSearch() {
+  return searchType.value === 'T Code';
+}
+
+function updateSearchMode() {
+  searchInput.placeholder = typePlaceholders[searchType.value];
+  searchInput.value = '';
+  if (isTCodeSearch()) {
+    searchInput.setAttribute('list', 'tcodeList');
+  } else {
+    searchInput.removeAttribute('list');
+  }
+  renderTCodeList('');
+}
+
+function updateTCodeListForSearch() {
+  if (!isTCodeSearch()) {
+    renderTCodeList('');
+    return;
+  }
+  const selectedItem = quickNavByCode.get(normalizeCode(searchInput.value));
+  if (selectedItem) {
+    selectTCodeItem(selectedItem);
+    return;
+  }
+  renderTCodeList(searchInput.value);
+}
+
+function renderTCodeList(query) {
   const list = document.getElementById('tcodeList');
   if (!list) return;
-  list.innerHTML = quickNavItems.map(item =>
+  const value = String(query || '').trim();
+  const normalizedValue = normalizeCode(value);
+  if (normalizedValue.length < tcodeMinSearchChars) {
+    list.innerHTML = '';
+    return;
+  }
+  const textValue = value.toLowerCase();
+  const matchingItems = quickNavItems.filter(item =>
+    normalizeCode(item.code).includes(normalizedValue) ||
+    item.label.toLowerCase().includes(textValue) ||
+    item.labels.join(' ').toLowerCase().includes(textValue)
+  );
+  list.innerHTML = matchingItems.map(item =>
     '<option value="' + esc(item.code) + '">' + esc(item.label) + ' · ' + esc(item.labels.slice(0, 4).join(' / ')) + '</option>'
   ).join('');
 }
 
+function findTCodeItem(value) {
+  const normalizedValue = normalizeCode(value);
+  const textValue = String(value || '').trim().toLowerCase();
+  return quickNavByCode.get(normalizedValue) || quickNavItems.find(item =>
+    normalizeCode(item.code).includes(normalizedValue) ||
+    item.label.toLowerCase().includes(textValue) ||
+    item.labels.join(' ').toLowerCase().includes(textValue)
+  );
+}
+
 function runTCode() {
-  const input = document.getElementById('tcodeInput');
-  const code = input ? input.value.trim() : '';
-  const item = quickNavByCode.get(normalizeCode(code));
+  const input = searchInput;
+  const code = input.value.trim();
+  const item = findTCodeItem(code);
   if (!item) {
-    if (input) {
-      input.value = '';
-      input.placeholder = 'Invalid T-code';
-      input.focus();
-    }
+    input.value = '';
+    input.placeholder = 'Invalid T-code';
+    renderTCodeList('');
+    input.focus();
     return;
   }
+  selectTCodeItem(item);
+}
+
+function selectTCodeItem(item) {
   selectFeature(item.path);
-  if (input) input.value = item.code;
+  searchInput.value = item.code;
+  renderTCodeList('');
 }
 
 function loadFavorites() {
@@ -923,8 +953,6 @@ function renderRail() {
   const previousRailScroll = icons.querySelector('.rail-scroll');
   const previousScrollTop = previousRailScroll ? previousRailScroll.scrollTop : 0;
   rail.className = 'rail' + (detailView ? ' detail' : '');
-  const toggleLabel = rail.querySelector('.toggle-label');
-  if (toggleLabel) toggleLabel.textContent = detailView ? 'Icon' : 'Detail';
   updateNavToggleButton();
   const homeActive = !activePath.length;
   const rows = [
@@ -1074,12 +1102,10 @@ function toggleEnterpriseNavigation() {
 function updateNavToggleButton() {
   const btn = document.getElementById('navToggleBtn');
   const iconEl = document.getElementById('navToggleIcon');
-  const textEl = document.getElementById('navToggleText');
-  if (!btn || !iconEl || !textEl) return;
+  if (!btn || !iconEl) return;
   const expanded = isExpandedToLevel3();
   btn.setAttribute('aria-label', expanded ? 'Collapse navigation' : 'Expand navigation');
   iconEl.innerHTML = expanded ? collapseAllIcon() : expandAllIcon();
-  textEl.textContent = expanded ? 'Collapse' : 'Expand';
 }
 
 function expandAllIcon() {
@@ -1330,12 +1356,15 @@ const typePlaceholders = {
   'National ID': 'Search by national ID…',
   'Passport': 'Search by passport number…',
   'Phone': 'Search by phone number…',
-  'Case Number': 'Search by case number…'
+  'Case Number': 'Search by case number…',
+  'T Code': 'Enter T-code…'
 };
-searchType.addEventListener('change', () => { searchInput.placeholder = typePlaceholders[searchType.value]; });
 
 function runSearch() {
-  if (!detailView) { tg(); searchInput.focus(); return; }
+  if (isTCodeSearch()) {
+    runTCode();
+    return;
+  }
   const q = searchInput.value.trim();
   if (!q) { searchInput.focus(); return; }
   bc.innerHTML = '🏠 <span>Home</span> <span class="sep">/</span> <span>Search</span>';
@@ -1349,7 +1378,7 @@ function launchApp(name) {
 }
 
 function logout() {
-  if (confirm('Log out of NexaCore Enterprise?')) {
+  if (confirm('Log out of NexaCore?')) {
     bc.innerHTML = '🏠 <span>Home</span>';
     ttl.textContent = 'Signed out';
     closeAllDD();
