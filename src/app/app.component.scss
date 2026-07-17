@@ -14,6 +14,6 @@
 .main {
   flex: 1;
   overflow: auto;
-  padding: 22px 28px;
+  padding: var(--layout-main-padding-block) var(--layout-main-padding-inline);
   background: var(--paper);
 }

@@ -1,13 +1,13 @@
 .statusbar {
-  height: 28px;
-  background: var(--chrome-bg);
-  color: var(--chrome-text-muted);
+  height: var(--layout-footer-height);
+  background: var(--layout-footer-bg);
+  color: var(--layout-footer-color);
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 16px;
   font-size: 11px;
-  border-top: 1px solid var(--chrome-border);
+  border-top: 1px solid var(--layout-footer-border-color);
   gap: 12px;
   transition:
     background 0.2s,

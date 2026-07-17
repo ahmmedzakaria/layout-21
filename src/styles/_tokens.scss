@@ -21,6 +21,16 @@
   --radius: 8px;
   --shadow: 0 8px 24px rgba(18, 24, 33, 0.14);
 
+  // layout dimensions
+  --layout-header-height: 58px;
+  --layout-footer-height: 28px;
+  --layout-nav-width: 64px;
+  --layout-nav-expanded-width: 208px;
+  --layout-nav-detail-width: 286px;
+  --layout-nav-flyout-width: 220px;
+  --layout-main-padding-block: 22px;
+  --layout-main-padding-inline: 28px;
+
   // chrome = header, rail, status bar
   --chrome-bg: #ffffff;
   --chrome-border: #e2e6ea;
@@ -34,6 +44,18 @@
   --chrome-search-border: #dde2e7;
   --chrome-search-text: #1a222c;
   --chrome-search-placeholder: #97a1ab;
+  --layout-header-bg: var(--chrome-bg);
+  --layout-header-color: var(--chrome-text);
+  --layout-header-border-color: var(--chrome-border-strong);
+  --layout-footer-bg: var(--chrome-bg);
+  --layout-footer-color: var(--chrome-text-muted);
+  --layout-footer-border-color: var(--chrome-border);
+  --layout-nav-bg: var(--chrome-bg);
+  --layout-nav-color: var(--chrome-text);
+  --layout-nav-border-color: var(--chrome-border);
+  --layout-nav-item-color: var(--chrome-icon);
+  --layout-nav-item-hover-bg: var(--chrome-hover-bg);
+  --layout-nav-item-active-bg: var(--chrome-active-bg);
 }
 
 body.dark {

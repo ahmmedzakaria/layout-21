@@ -3,13 +3,13 @@
 }
 
 header {
-  height: 58px;
-  background: var(--chrome-bg);
-  color: var(--chrome-text);
+  height: var(--layout-header-height);
+  background: var(--layout-header-bg);
+  color: var(--layout-header-color);
   display: flex;
   align-items: center;
   padding: 0 18px;
-  border-bottom: 1px solid var(--chrome-border-strong);
+  border-bottom: 1px solid var(--layout-header-border-color);
   gap: 20px;
   transition:
     background 0.2s,

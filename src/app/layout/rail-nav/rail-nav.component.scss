@@ -5,11 +5,11 @@
 }
 
 .rail {
-  width: 64px;
+  width: var(--layout-nav-width);
   height: 100%;
-  background: var(--chrome-bg);
-  color: var(--chrome-text);
-  border-inline-end: 1px solid var(--chrome-border);
+  background: var(--layout-nav-bg);
+  color: var(--layout-nav-color);
+  border-inline-end: 1px solid var(--layout-nav-border-color);
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
@@ -19,7 +19,7 @@
     color 0.2s;
 
   &.detail {
-    width: 286px;
+    width: var(--layout-nav-detail-width);
   }
 }
 
@@ -82,7 +82,7 @@
   background: transparent;
   cursor: pointer;
   white-space: nowrap;
-  color: var(--chrome-icon);
+  color: var(--layout-nav-item-color);
   font-family: inherit;
   transition:
     background 0.15s,
@@ -100,12 +100,12 @@
   }
 
   &:hover {
-    background: var(--chrome-hover-bg);
+    background: var(--layout-nav-item-hover-bg);
     color: var(--chrome-text);
   }
 
   &.active {
-    background: var(--chrome-active-bg);
+    background: var(--layout-nav-item-active-bg);
     color: var(--chrome-text);
     border-inline-start-color: var(--accent);
   }
@@ -198,8 +198,8 @@
 
 .nav-panel {
   position: fixed;
-  top: 66px;
-  left: 294px;
+  top: calc(var(--layout-header-height) + 8px);
+  left: calc(var(--layout-nav-detail-width) + 8px);
   z-index: 42;
   background: var(--card);
   border: 1px solid var(--border);
@@ -209,8 +209,8 @@
 }
 
 .mega {
-  width: min(790px, calc(100vw - 330px));
-  max-height: calc(100vh - 132px);
+  width: min(790px, calc(100vw - var(--layout-nav-detail-width) - 44px));
+  max-height: calc(100vh - var(--layout-header-height) - var(--layout-footer-height) - 46px);
   overflow: auto;
   padding: 22px;
 }
