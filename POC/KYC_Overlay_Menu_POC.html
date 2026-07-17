@@ -105,7 +105,7 @@ header{height:58px;background:var(--chrome-bg);color:var(--chrome-text);display:
 .brand-logo .logo-node{fill:#fff}
 .brand small{display:block;font-weight:400;color:var(--chrome-text-muted);font-size:11px;letter-spacing:.4px;text-transform:uppercase;margin-top:1px}
 
-.hdr-center{flex:1;display:flex;justify-content:center;min-width:0}
+.hdr-center{flex:1;display:flex;justify-content:center;align-items:center;gap:8px;min-width:0}
 .global-search{display:flex;align-items:center;gap:2px;background:var(--chrome-search-bg);border:1px solid var(--chrome-search-border);border-radius:9px;height:38px;width:100%;max-width:560px;padding-left:12px}
 .global-search select{background:transparent;border:none;color:var(--chrome-icon);font-size:12px;font-family:inherit;padding-right:10px;border-right:1px solid var(--chrome-search-border);height:38px;cursor:pointer;outline:none;flex-shrink:0}
 .global-search select option{background:var(--chrome-search-bg);color:var(--chrome-search-text)}
@@ -113,6 +113,12 @@ header{height:58px;background:var(--chrome-bg);color:var(--chrome-text);display:
 .global-search input::placeholder{color:var(--chrome-search-placeholder)}
 .global-search .go{width:32px;height:32px;margin-right:3px;border-radius:7px;display:flex;align-items:center;justify-content:center;color:var(--chrome-icon);cursor:pointer;flex-shrink:0;transition:background .15s,color .15s}
 .global-search .go:hover{background:var(--chrome-hover-bg);color:var(--chrome-text)}
+.quick-nav{height:38px;width:190px;display:flex;align-items:center;gap:6px;background:var(--chrome-search-bg);border:1px solid var(--chrome-search-border);border-radius:9px;padding:0 3px 0 10px;flex-shrink:0}
+.quick-nav .tag{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:700;color:var(--accent);letter-spacing:.3px}
+.quick-nav input{width:100%;min-width:0;background:transparent;border:none;outline:none;color:var(--chrome-search-text);font-size:12.5px;font-family:"IBM Plex Mono",monospace;text-transform:uppercase}
+.quick-nav input::placeholder{color:var(--chrome-search-placeholder);text-transform:none;font-family:"Public Sans",Arial,sans-serif}
+.quick-nav .go{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;color:var(--chrome-icon);cursor:pointer;flex-shrink:0}
+.quick-nav .go:hover{background:var(--chrome-hover-bg);color:var(--chrome-text)}
 
 .hdr-right{display:flex;align-items:center;gap:4px;flex-shrink:0}
 .hdr-item{position:relative}
@@ -132,6 +138,11 @@ header.icon-view .global-search select,
 header.icon-view .global-search input{display:none}
 header.icon-view .global-search .go{margin-right:0}
 header.icon-view .global-search:hover{background:var(--chrome-hover-bg);border-color:var(--chrome-search-border)}
+header.icon-view .quick-nav{width:38px;padding:0;justify-content:center;background:transparent;border-color:transparent}
+header.icon-view .quick-nav .tag,
+header.icon-view .quick-nav input{display:none}
+header.icon-view .quick-nav .go{width:36px;height:36px}
+header.icon-view .quick-nav:hover{background:var(--chrome-hover-bg);border-color:var(--chrome-search-border)}
 header.icon-view .hdr-pill{width:36px;padding:0;justify-content:center}
 header.icon-view .hdr-pill .lbl-text,
 header.icon-view .hdr-pill .chev{display:none}
@@ -150,6 +161,13 @@ header:not(.icon-view) .global-search{cursor:default}
 .hdr-dropdown .opt.active{color:var(--accent);font-weight:600}
 .hdr-dropdown .opt .meta{margin-left:auto;font-size:11px;color:var(--text-muted);font-weight:400}
 .hdr-dropdown .empty{padding:16px 14px;font-size:12.5px;color:var(--text-muted);text-align:center}
+.favorite-count{position:absolute;top:-4px;right:-6px;min-width:15px;height:15px;background:var(--accent);color:#fff;font-size:9px;font-weight:700;border-radius:99px;display:flex;align-items:center;justify-content:center;padding:0 3px;border:2px solid var(--chrome-bg);line-height:1}
+.favorite-list{max-height:320px;overflow:auto;padding-bottom:6px}
+.favorite-row{width:100%;border:none;background:transparent;text-align:left;color:var(--text);padding:9px 12px;display:grid;grid-template-columns:1fr auto;gap:6px;cursor:pointer;font-family:inherit}
+.favorite-row:hover{background:var(--surface-2)}
+.favorite-row .name{font-size:12.5px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.favorite-row .path{grid-column:1 / -1;font-size:10.5px;color:var(--text-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.favorite-row .code{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--accent);font-weight:700}
 
 .hdr-dropdown.apps-panel{min-width:260px}
 .hdr-dropdown .dd-head .sso-tag{margin-left:7px;background:var(--accent-soft);color:var(--accent);font-size:9px;font-weight:700;letter-spacing:.4px;padding:1px 6px;border-radius:99px;text-transform:none;vertical-align:1px}
@@ -255,8 +273,9 @@ td.id{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--text-mu
 .mega-list-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .mega-subitem{min-height:32px;display:flex;align-items:center;padding:7px 9px;border-radius:7px;color:var(--text-muted);font-size:13.5px;cursor:pointer}
 .mega-subitem:hover,.mega-subitem.active{background:var(--surface-2);color:var(--text)}
+.mega-subitem .feature-label{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
-.module-row:focus-visible,.nav-item:focus-visible,.mega-subitem:focus-visible,.hdr-btn:focus-visible,.hdr-pill:focus-visible,.avatar:focus-visible,.global-search .go:focus-visible,.toggle:focus-visible{outline:2px solid var(--focus);outline-offset:-2px}
+.module-row:focus-visible,.nav-item:focus-visible,.mega-subitem:focus-visible,.status-favorite:focus-visible,.hdr-btn:focus-visible,.hdr-pill:focus-visible,.avatar:focus-visible,.global-search .go:focus-visible,.quick-nav .go:focus-visible,.toggle:focus-visible{outline:2px solid var(--focus);outline-offset:-2px}
 
 /* status bar */
 .statusbar{height:28px;flex-shrink:0;background:var(--chrome-bg);color:var(--chrome-text-muted);display:flex;align-items:center;justify-content:space-between;padding:0 16px;font-size:11px;border-top:1px solid var(--chrome-border);gap:12px;transition:background .2s,color .2s,border-color .2s}
@@ -269,6 +288,9 @@ td.id{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--text-mu
 .sb-tag{background:var(--chrome-hover-bg);color:var(--chrome-icon);padding:1px 7px;border-radius:99px;font-size:10px;font-weight:600;letter-spacing:.3px}
 .sb-div{width:1px;height:12px;background:var(--chrome-border);flex-shrink:0}
 .sb-mono{font-family:"IBM Plex Mono",monospace;color:var(--chrome-icon)}
+.status-favorite{height:22px;border:none;background:transparent;color:var(--chrome-text-muted);border-radius:6px;display:flex;align-items:center;gap:5px;padding:0 6px;font:inherit;cursor:pointer}
+.status-favorite:hover,.status-favorite.active{background:var(--chrome-hover-bg);color:var(--accent)}
+.status-favorite svg{width:13px;height:13px}
 </style></head>
 <body>
 
@@ -299,9 +321,32 @@ td.id{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--text-mu
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3" stroke-linecap="round"/></svg>
       </div>
     </div>
+    <div class="quick-nav">
+      <span class="tag">T</span>
+      <input id="tcodeInput" list="tcodeList" type="text" placeholder="T-code" aria-label="T-code quick navigation" onkeydown="if(event.key==='Enter')runTCode()">
+      <datalist id="tcodeList"></datalist>
+      <div class="go" tabindex="0" aria-label="Open T-code" onclick="runTCode()" onkeydown="if(event.key==='Enter')runTCode()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </div>
   </div>
 
   <div class="hdr-right">
+    <div class="hdr-item" id="ddFav">
+      <div class="hdr-pill" tabindex="0" onclick="toggleDD('ddFav')">
+        <span class="icon-wrap">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3.5l2.7 5.5 6.1.9-4.4 4.3 1 6.1L12 17.4l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9L12 3.5z" stroke-linejoin="round"/></svg>
+          <span id="favoriteCount" class="favorite-count">0</span>
+        </span>
+        <span class="lbl-text">Favorites</span>
+        <svg class="chev" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="hdr-dropdown">
+        <div class="dd-head">Favorite Navigation</div>
+        <div id="favoriteList" class="favorite-list"></div>
+      </div>
+    </div>
+
     <div class="hdr-item" id="ddApps">
       <div class="hdr-pill" tabindex="0" onclick="toggleDD('ddApps')">
         <span class="icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="5" cy="5" r="1.6"/><circle cx="12" cy="5" r="1.6"/><circle cx="19" cy="5" r="1.6"/><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/><circle cx="5" cy="19" r="1.6"/><circle cx="12" cy="19" r="1.6"/><circle cx="19" cy="19" r="1.6"/></svg></span>
@@ -465,7 +510,7 @@ td.id{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--text-mu
     <div class="sb-item">Env: <span class="sb-tag">Production</span></div>
   </div>
 
-  <div class="sb-group sb-mid">
+  <div class="sb-group sb-mid" id="statusNavInfo">
     <div class="sb-item">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 12a8 8 0 10-2.7 6M20 6v6h-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
       Last synced <span id="syncTime" class="sb-mono">just now</span>
@@ -713,9 +758,165 @@ const navigationTree = [
 
 const icons = document.getElementById('icons');
 const navOverlay = document.getElementById('navOverlay');
+const favoriteStorageKey = 'nexacore.favorite.navigation';
+let quickNavItems = [];
+let quickNavByCode = new Map();
+let quickNavByPath = new Map();
+let favoritePaths = new Set();
+let currentFeaturePathKey = '';
 
 function esc(s) {
   return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+}
+
+function normalizeCode(code) {
+  return String(code || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+}
+
+function codePart(label, maxLength) {
+  const words = String(label || '').match(/[A-Za-z0-9]+/g) || [];
+  const value = words.length > 1 ? words.map(word => word[0]).join('') : (words[0] || 'NAV');
+  return value.toUpperCase().slice(0, maxLength);
+}
+
+function makeTCode(labels, usedCodes) {
+  const moduleGroup = codePart(labels[0], 3);
+  const module = codePart(labels[1], 3);
+  const feature = codePart(labels[4], 4);
+  const base = moduleGroup + '-' + module + '-' + feature;
+  let code = base;
+  let index = 2;
+  while (usedCodes.has(normalizeCode(code))) {
+    code = base + index;
+    index += 1;
+  }
+  usedCodes.add(normalizeCode(code));
+  return code;
+}
+
+function initQuickNavigation() {
+  const usedCodes = new Set();
+  quickNavItems = [];
+  navigationTree.forEach((groupNode, groupIndex) => {
+    (groupNode.children || []).forEach((moduleNode, moduleIndex) => {
+      (moduleNode.children || []).forEach((categoryNode, categoryIndex) => {
+        (categoryNode.children || []).forEach((featureGroupNode, featureGroupIndex) => {
+          (featureGroupNode.children || []).forEach((featureNode, featureIndex) => {
+            const path = [groupIndex, moduleIndex, categoryIndex, featureGroupIndex, featureIndex];
+            const labels = [groupNode.label, moduleNode.label, categoryNode.label, featureGroupNode.label, featureNode.label];
+            const code = makeTCode(labels, usedCodes);
+            quickNavItems.push({ code, path, pathKey: path.join('.'), label: featureNode.label, labels });
+          });
+        });
+      });
+    });
+  });
+  quickNavByCode = new Map(quickNavItems.map(item => [normalizeCode(item.code), item]));
+  quickNavByPath = new Map(quickNavItems.map(item => [item.pathKey, item]));
+  renderTCodeList();
+  loadFavorites();
+  renderFavorites();
+}
+
+function renderTCodeList() {
+  const list = document.getElementById('tcodeList');
+  if (!list) return;
+  list.innerHTML = quickNavItems.map(item =>
+    '<option value="' + esc(item.code) + '">' + esc(item.label) + ' · ' + esc(item.labels.slice(0, 4).join(' / ')) + '</option>'
+  ).join('');
+}
+
+function runTCode() {
+  const input = document.getElementById('tcodeInput');
+  const code = input ? input.value.trim() : '';
+  const item = quickNavByCode.get(normalizeCode(code));
+  if (!item) {
+    if (input) {
+      input.value = '';
+      input.placeholder = 'Invalid T-code';
+      input.focus();
+    }
+    return;
+  }
+  selectFeature(item.path);
+  if (input) input.value = item.code;
+}
+
+function loadFavorites() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(favoriteStorageKey) || '[]');
+    favoritePaths = new Set(Array.isArray(saved) ? saved.filter(path => quickNavByPath.has(path)) : []);
+  } catch (e) {
+    favoritePaths = new Set();
+  }
+}
+
+function saveFavorites() {
+  localStorage.setItem(favoriteStorageKey, JSON.stringify(Array.from(favoritePaths)));
+}
+
+function isFavorite(pathKeyValue) {
+  return favoritePaths.has(pathKeyValue);
+}
+
+function toggleFavorite(pathKeyValue) {
+  if (!quickNavByPath.has(pathKeyValue)) return;
+  favoritePaths.has(pathKeyValue) ? favoritePaths.delete(pathKeyValue) : favoritePaths.add(pathKeyValue);
+  saveFavorites();
+  renderFavorites();
+  renderPanels();
+  renderStatusNavInfo();
+}
+
+function renderFavorites() {
+  const countEl = document.getElementById('favoriteCount');
+  const listEl = document.getElementById('favoriteList');
+  const items = Array.from(favoritePaths).map(path => quickNavByPath.get(path)).filter(Boolean);
+  if (countEl) countEl.textContent = String(items.length);
+  if (!listEl) return;
+  listEl.innerHTML = items.length ? items.map(item =>
+    '<button type="button" class="favorite-row" onclick="openFavorite(\'' + item.pathKey + '\')">' +
+    '<span class="name">' + esc(item.label) + '</span>' +
+    '<span class="code">' + esc(item.code) + '</span>' +
+    '<span class="path">' + esc(item.labels.slice(0, 4).join(' / ')) + '</span>' +
+    '</button>'
+  ).join('') : '<div class="empty">No favorite navigation yet</div>';
+}
+
+function openFavorite(pathKeyValue) {
+  const item = quickNavByPath.get(pathKeyValue);
+  if (!item) return;
+  selectFeature(item.path);
+  closeAllDD();
+}
+
+function renderStatusNavInfo() {
+  const statusEl = document.getElementById('statusNavInfo');
+  if (!statusEl) return;
+  const item = quickNavByPath.get(currentFeaturePathKey);
+  if (!item) {
+    statusEl.innerHTML =
+      '<div class="sb-item">' +
+      '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 12a8 8 0 10-2.7 6M20 6v6h-6" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+      'Last synced <span id="syncTime" class="sb-mono">just now</span>' +
+      '</div>' +
+      '<div class="sb-div"></div>' +
+      '<div class="sb-item">' +
+      '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 10h8M8 14h5" stroke-linecap="round"/></svg>' +
+      'Audit Logging Active' +
+      '</div>';
+    return;
+  }
+  const favorite = isFavorite(item.pathKey);
+  statusEl.innerHTML =
+    '<div class="sb-item">T-code <span class="sb-tag sb-mono">' + esc(item.code) + '</span></div>' +
+    '<div class="sb-div"></div>' +
+    '<div class="sb-item">' + esc(item.label) + '</div>' +
+    '<div class="sb-div"></div>' +
+    '<button type="button" class="status-favorite' + (favorite ? ' active' : '') + '" onclick="toggleFavorite(\'' + item.pathKey + '\')">' +
+    '<svg viewBox="0 0 24 24" fill="' + (favorite ? 'currentColor' : 'none') + '" stroke="currentColor" stroke-width="1.9"><path d="M12 3.5l2.7 5.5 6.1.9-4.4 4.3 1 6.1L12 17.4l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9L12 3.5z" stroke-linejoin="round"/></svg>' +
+    '<span>' + (favorite ? 'Favorite' : 'Add favorite') + '</span>' +
+    '</button>';
 }
 
 function renderRail() {
@@ -829,10 +1030,12 @@ function handleRailClick(row) {
   clearTimeout(closeTimer);
   if (row.dataset.action === 'home') {
     activePath = [];
+    currentFeaturePathKey = '';
     expandedPaths.clear();
     closePanelsOnly();
     bc.innerHTML = '🏠 <span>Home</span>';
     ttl.textContent = 'Dashboard';
+    renderStatusNavInfo();
     renderRail();
     return;
   }
@@ -1003,7 +1206,10 @@ function megaColumnHtml(groupNode, groupPath) {
     '<div class="mega-list-title">' + esc(groupNode.label) + '</div>' +
     features.map((featureNode, featureIndex) => {
       const path = groupPath.concat(featureIndex);
-      return '<div class="mega-subitem" tabindex="0" data-path="' + path.join('.') + '">' + esc(featureNode.label) + '</div>';
+      const pathValue = path.join('.');
+      return '<div class="mega-subitem" tabindex="0" data-path="' + pathValue + '">' +
+        '<span class="feature-label">' + esc(featureNode.label) + '</span>' +
+        '</div>';
     }).join('') +
     '</div>';
 }
@@ -1019,8 +1225,10 @@ function openCategoryPanel(pathValue, anchorEl) {
 
 function selectFeature(path) {
   const labels = path.map((_, i) => getNode(path.slice(0, i + 1)).label);
+  currentFeaturePathKey = path.join('.');
   bc.innerHTML = '🏠 <span>Home</span> <span class="sep">/</span> <span>' + labels.map(esc).join('</span> <span class="sep">/</span> <span>') + '</span>';
   ttl.textContent = labels[labels.length - 1];
+  renderStatusNavInfo();
   closeNav();
 }
 
@@ -1154,6 +1362,7 @@ function updateClock() {
 updateClock();
 setInterval(updateClock, 1000);
 
+initQuickNavigation();
 renderRail();
 </script>
 </body></html>
