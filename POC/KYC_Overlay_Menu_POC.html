@@ -561,6 +561,46 @@ const navigationTree = [
       group('Settlement', ['Batch Settlement','Settlement Review','Fee Adjustment','Dispute Handling'])
     ]) }
   ] },
+  { label: 'Compliance', type: 'Module Group', icon: '🛡️', children: [
+    { label: 'KYC', type: 'Module', children: categories([
+      group('Person KYC', ['Customer Registration','KYC Profile','Document Capture','Identity Verification','Risk Classification','Approval Review']),
+      group('Business Verification', ['Business Profile','Owner Information','Trade License Check','Address Verification','Business Risk Rating']),
+      group('KYC Review', ['Pending Review','Send Back','Approve KYC','Reject KYC','Review History'])
+    ], [
+      group('KYC Configuration', ['Document Type Setup','Risk Rule Setup','Review Frequency','Approval Matrix']),
+      group('Verification Setup', ['Provider Mapping','Required Field Setup','Checklist Setup'])
+    ], [
+      group('KYC Reports', ['Customer Register','Pending KYC','Rejected KYC','High Risk Customers','Verification Aging'])
+    ]) },
+    { label: 'KYB', type: 'Module', children: categories([
+      group('Business Onboarding', ['Business Registration','Beneficial Owner Capture','Ownership Structure','Entity Verification','KYB Approval']),
+      group('Legal Document Review', ['Registration Certificate','Tax Document','Trade License','Board Resolution','Document Exception'])
+    ]) },
+    { label: 'AML Screening', type: 'Module', children: categories([
+      group('Watchlist Screening', ['Sanction Screening','PEP Screening','Adverse Media Search','Watchlist Match Review','False Positive Marking']),
+      group('Screening Queue', ['Pending Matches','Escalated Matches','Batch Screening','Screening History'])
+    ]) },
+    { label: 'Customer Due Diligence', type: 'Module', children: categories([
+      group('CDD Review', ['CDD Checklist','Customer Risk Review','Profile Refresh','Source of Fund Review','Review Approval']),
+      group('Enhanced Due Diligence', ['EDD Request','EDD Investigation','Senior Approval','EDD Closure'])
+    ]) },
+    { label: 'Transaction Monitoring', type: 'Module', children: categories([
+      group('Monitoring Alerts', ['Alert Queue','Alert Assignment','Alert Investigation','Alert Disposition','Alert Escalation']),
+      group('Scenario Review', ['Threshold Breach','Velocity Pattern','Structuring Alert','Unusual Activity'])
+    ]) },
+    { label: 'Compliance Case Management', type: 'Module', children: categories([
+      group('Case Operations', ['Create Case','Case Search','Case Assignment','Investigation Notes','Case Escalation','Case Closure']),
+      group('Evidence Management', ['Evidence Upload','Evidence Review','Linked Alerts','Case Timeline'])
+    ]) },
+    { label: 'Regulatory Reporting', type: 'Module', children: categories([
+      group('Regulatory Submissions', ['STR Draft','SAR Draft','CTR Register','Submission Review','Regulator Response']),
+      group('Compliance Registers', ['High Risk Register','PEP Register','Rejected Customer Register','Screening Register'])
+    ]) },
+    { label: 'Compliance Policy & Setup', type: 'Module', children: categories([
+      group('Policy Configuration', ['Risk Policy','Screening Policy','CDD Policy','EDD Policy','Retention Policy']),
+      group('Rule Configuration', ['Risk Score Rule','Alert Threshold','Escalation Rule','Review Calendar'])
+    ]) }
+  ] },
   { label: 'Survey', type: 'Module Group', icon: '📋', children: [
     { label: 'Land Survey', type: 'Module', children: categories([
       group('Land Information', ['New Survey','Search Survey','Update Survey','GIS Map','Boundary Verification','Owner History']),
@@ -685,6 +725,9 @@ function railNodeIcon(node, level) {
 function moduleIcon(label) {
   const key = label.toLowerCase();
   if (key.includes('banking')) return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3 10h18L12 4 3 10zM5 10v9M10 10v9M14 10v9M19 10v9M4 19h16" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  if (key.includes('transaction monitoring') || key.includes('case management')) return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M4 6h16v12H4z" rx="2"/><path d="M7 14l3-3 3 2 4-5M7 18h10" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  if (key.includes('regulatory') || key.includes('policy')) return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v5h4M10 12h5M10 16h5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  if (key.includes('kyc') || key.includes('kyb') || key.includes('aml') || key.includes('diligence') || key.includes('compliance')) return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 3l7 3v5c0 4.4-2.8 7.8-7 10-4.2-2.2-7-5.6-7-10V6l7-3z"/><path d="M8.5 12h7M8.5 15h4M9 9h6" stroke-linecap="round"/></svg>';
   if (key.includes('survey')) return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M9 18l-6 3V6l6-3 6 3 6-3v15l-6 3-6-3zM9 3v15M15 6v15" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   if (key.includes('pos')) return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="4" y="5" width="16" height="14" rx="2"/><path d="M8 9h8M8 13h5M8 17h.01M12 17h.01M16 17h.01" stroke-linecap="round"/></svg>';
   if (key.includes('clinic') || key.includes('pharmacy')) return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 5v14M5 12h14" stroke-linecap="round"/><rect x="4" y="4" width="16" height="16" rx="4"/></svg>';
@@ -850,6 +893,7 @@ function megaContext(categoryPath) {
   const key = moduleGroup ? moduleGroup.label : '';
   const notes = {
     Banking: 'Work through customer, account, loan, transaction, cheque, and remittance tasks from one operational surface.',
+    Compliance: 'Manage KYC, KYB, AML screening, due diligence, monitoring, case investigation, and regulatory reporting workflows.',
     Survey: 'Capture field information, verify boundaries or assets, and continue into GIS-backed survey workflows.',
     POS: 'Move quickly through sales, cash desk, inventory, settlement, and retail service actions.',
     'Health & Medical': 'Access patient, appointment, clinic, and pharmacy operations grouped for front-desk teams.',
