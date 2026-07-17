@@ -1,0 +1,53 @@
+<main class="auth-page">
+  <section class="auth-panel">
+    <div class="brand-line">
+      <svg class="brand-logo" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <rect class="logo-panel" x="6.5" y="6.5" width="19" height="19" rx="5" stroke-width="1.4" />
+        <path class="logo-path" d="M10 22V10l12 12V10" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+        <path class="logo-path" d="M10 10h12M10 22h12" stroke-width="1.6" stroke-linecap="round" />
+        <circle class="logo-node" cx="10" cy="10" r="2" />
+        <circle class="logo-node" cx="22" cy="22" r="2" />
+        <circle class="logo-node" cx="22" cy="10" r="1.6" />
+      </svg>
+      <div>
+        <strong>NexaCore</strong>
+        <small>Navigation Workspace</small>
+      </div>
+    </div>
+
+    <header class="auth-head">
+      <h1>Sign in</h1>
+      <p>Access the compliance workspace.</p>
+    </header>
+
+    <form class="auth-form" (ngSubmit)="submit()">
+      <label>
+        <span>Email</span>
+        <input type="email" name="email" autocomplete="email" required [ngModel]="email()" (ngModelChange)="email.set($event)" />
+      </label>
+
+      <label>
+        <span>Password</span>
+        <input
+          type="password"
+          name="password"
+          autocomplete="current-password"
+          required
+          [ngModel]="password()"
+          (ngModelChange)="password.set($event)"
+        />
+      </label>
+
+      @if (error()) {
+        <div class="error-row"><app-icon name="alert" [size]="14" /> {{ error() }}</div>
+      }
+
+      <button type="submit" class="primary">Sign in</button>
+    </form>
+
+    <footer class="auth-foot">
+      <span>No account?</span>
+      <a routerLink="/register">Register</a>
+    </footer>
+  </section>
+</main>

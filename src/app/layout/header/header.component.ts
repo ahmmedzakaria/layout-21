@@ -12,6 +12,7 @@ import { RailStateService } from '../../core/services/rail-state.service';
 import { ThemeService } from '../../core/services/theme.service';
 import { BreadcrumbService } from '../../core/services/breadcrumb.service';
 import { ThemeId } from '../../core/models/theme.model';
+import { AuthService } from '../../core/services/auth.service';
 
 interface AppTile {
   name: string;
@@ -53,6 +54,7 @@ export class HeaderComponent {
   protected readonly rail = inject(RailStateService);
   protected readonly menu = inject(HeaderMenuService);
   protected readonly workspace = inject(NavigationWorkspaceService);
+  protected readonly auth = inject(AuthService);
   protected readonly theme = inject(ThemeService);
   private readonly breadcrumb = inject(BreadcrumbService);
   private readonly transloco = inject(TranslocoService);
@@ -174,8 +176,9 @@ export class HeaderComponent {
 
   logout(): void {
     this.menu.close();
+    this.auth.signOut();
     this.breadcrumb.reset('Signed out');
-    // Real implementation clears the session and redirects to the IdP logout endpoint.
+    this.router.navigate(['/login']);
     console.info('Logging out');
   }
 }

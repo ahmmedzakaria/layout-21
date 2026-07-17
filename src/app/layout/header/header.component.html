@@ -187,11 +187,11 @@
 
     <!-- Profile -->
     <app-header-dropdown id="profile">
-      <button trigger type="button" class="avatar focus-ring" (click)="menu.toggle('profile')">AO</button>
+      <button trigger type="button" class="avatar focus-ring" (click)="menu.toggle('profile')">{{ auth.initials() }}</button>
       <ng-container panel>
         <div class="dd-head">Signed in as</div>
-        <div class="opt static"><b>Amina Osei</b></div>
-        <div class="opt static muted">Compliance Officer</div>
+        <div class="opt static"><b>{{ auth.currentUser()?.name }}</b></div>
+        <div class="opt static muted">{{ auth.currentUser()?.role }}</div>
         <div class="opt" (click)="menu.close()">View Profile</div>
         <div class="opt" (click)="menu.close()">Account Settings</div>
         <div class="opt" (click)="logout()">
