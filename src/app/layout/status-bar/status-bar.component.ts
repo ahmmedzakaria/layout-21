@@ -1,14 +1,18 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '@angular/core';
+import { IconComponent } from '../../shared/icon/icon.component';
+import { NavigationWorkspaceService } from '../../core/services/navigation-workspace.service';
 
 @Component({
   selector: 'app-status-bar',
   standalone: true,
+  imports: [IconComponent],
   templateUrl: './status-bar.component.html',
   styleUrl: './status-bar.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StatusBarComponent {
   private readonly destroyRef = inject(DestroyRef);
+  protected readonly workspace = inject(NavigationWorkspaceService);
 
   protected readonly clock = signal(this.formatTime());
 

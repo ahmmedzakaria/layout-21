@@ -1,8 +1,12 @@
 <header [class.icon-view]="!rail.expanded()">
   <div class="brand">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
-      <path d="M12 2l8 3.5v6c0 5-3.4 8.7-8 10.5-4.6-1.8-8-5.5-8-10.5v-6L12 2z" />
-      <path d="M8.5 12l2.3 2.3L15.5 9.5" stroke-linecap="round" stroke-linejoin="round" />
+    <svg class="brand-logo" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <rect class="logo-panel" x="6.5" y="6.5" width="19" height="19" rx="5" stroke-width="1.4" />
+      <path class="logo-path" d="M10 22V10l12 12V10" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+      <path class="logo-path" d="M10 10h12M10 22h12" stroke-width="1.6" stroke-linecap="round" />
+      <circle class="logo-node" cx="10" cy="10" r="2" />
+      <circle class="logo-node" cx="22" cy="22" r="2" />
+      <circle class="logo-node" cx="22" cy="10" r="1.6" />
     </svg>
     <div class="brand-text">
       {{ 'brand.name' | transloco }}
@@ -12,18 +16,25 @@
 
   <div class="hdr-center">
     <div class="global-search">
-      <select [ngModel]="searchType()" (ngModelChange)="searchType.set($event)" aria-label="Search by">
+      <select [ngModel]="searchType()" (ngModelChange)="selectSearchType($event)" aria-label="Search by">
         @for (type of searchTypes; track type) {
           <option [value]="type">{{ type }}</option>
         }
       </select>
       <input
+        #searchInput
         type="text"
         [ngModel]="searchQuery()"
-        (ngModelChange)="searchQuery.set($event)"
-        [placeholder]="'search.placeholder' | transloco"
+        (ngModelChange)="handleSearchQueryChange($event)"
+        [placeholder]="searchPlaceholder()"
+        [attr.list]="searchType() === 'T Code' ? 'tcodeList' : null"
         (keydown.enter)="runSearch()"
       />
+      <datalist id="tcodeList">
+        @for (item of tcodeOptions(); track item.pathKey) {
+          <option [value]="item.code">{{ item.label }} · {{ item.labels.slice(0, 4).join(' / ') }}</option>
+        }
+      </datalist>
       <button type="button" class="go focus-ring" [attr.aria-label]="'search.button' | transloco" (click)="runSearch()">
         <app-icon name="search" [size]="16" />
       </button>
@@ -31,6 +42,34 @@
   </div>
 
   <div class="hdr-right">
+    <!-- Favorite navigation -->
+    <app-header-dropdown id="favorites">
+      <button trigger type="button" class="hdr-pill focus-ring" (click)="menu.toggle('favorites')">
+        <span class="icon-wrap">
+          <app-icon name="star" />
+          <span class="favorite-count">{{ workspace.favoriteItems().length }}</span>
+        </span>
+        <span class="lbl-text">Favorites</span>
+        <app-icon name="chevron-down" [size]="11" class="chev" />
+      </button>
+      <ng-container panel>
+        <div class="dd-head">Favorite Navigation</div>
+        <div class="favorite-list">
+          @if (workspace.favoriteItems().length) {
+            @for (item of workspace.favoriteItems(); track item.pathKey) {
+              <button type="button" class="favorite-row focus-ring" (click)="openFavorite(item)">
+                <span class="name">{{ item.label }}</span>
+                <span class="code">{{ item.code }}</span>
+                <span class="path">{{ item.labels.slice(0, 4).join(' / ') }}</span>
+              </button>
+            }
+          } @else {
+            <div class="empty">No favorite navigation yet</div>
+          }
+        </div>
+      </ng-container>
+    </app-header-dropdown>
+
     <!-- Apps (SSO launcher) -->
     <app-header-dropdown id="apps">
       <button trigger type="button" class="hdr-pill focus-ring" (click)="menu.toggle('apps')">
@@ -63,9 +102,9 @@
       </button>
       <ng-container panel>
         <div class="dd-head">Notifications</div>
-        <div class="opt">⚠️ High-risk match flagged — K-10432</div>
-        <div class="opt">📄 Document expiring — K-10391</div>
-        <div class="opt">✅ KYC approved — K-10439</div>
+        <div class="opt"><app-icon name="alert" [size]="14" /> High-risk match flagged — K-10432</div>
+        <div class="opt"><app-icon name="file-alert" [size]="14" /> Document expiring — K-10391</div>
+        <div class="opt"><app-icon name="check" [size]="14" /> KYC approved — K-10439</div>
       </ng-container>
     </app-header-dropdown>
 
@@ -155,11 +194,11 @@
         <div class="opt static muted">Compliance Officer</div>
         <div class="opt" (click)="menu.close()">View Profile</div>
         <div class="opt" (click)="menu.close()">Account Settings</div>
+        <div class="opt" (click)="logout()">
+          <app-icon name="logout" [size]="14" />
+          Sign out
+        </div>
       </ng-container>
     </app-header-dropdown>
-
-    <button type="button" class="hdr-btn focus-ring" [attr.aria-label]="'header.logout' | transloco" (click)="logout()">
-      <app-icon name="logout" />
-    </button>
   </div>
 </header>

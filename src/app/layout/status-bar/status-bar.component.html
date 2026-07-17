@@ -6,9 +6,23 @@
   </div>
 
   <div class="sb-group sb-mid">
-    <div class="sb-item">Last synced <span class="sb-mono">just now</span></div>
-    <div class="sb-div"></div>
-    <div class="sb-item">Audit Logging Active</div>
+    @if (workspace.selectedItem(); as item) {
+      <div class="sb-item">T-code <span class="sb-tag sb-mono">{{ item.code }}</span></div>
+      <div class="sb-div"></div>
+      <button
+        type="button"
+        class="status-favorite"
+        [class.active]="workspace.isFavorite(item.pathKey)"
+        (click)="workspace.toggleFavorite(item.pathKey)"
+      >
+        <app-icon name="star" [size]="13" />
+        <span>{{ workspace.isFavorite(item.pathKey) ? 'Favorite' : 'Add favorite' }}</span>
+      </button>
+    } @else {
+      <div class="sb-item">Last synced <span class="sb-mono">just now</span></div>
+      <div class="sb-div"></div>
+      <div class="sb-item">Audit Logging Active</div>
+    }
   </div>
 
   <div class="sb-group sb-right">

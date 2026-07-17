@@ -1,12 +1,12 @@
 import { Injectable, signal } from '@angular/core';
 import { CdkOverlayOrigin } from '@angular/cdk/overlay';
-import { NavItem } from '../models/nav-module.model';
+import { NavFeature } from '../models/nav-module.model';
 
 export interface FlyoutContent {
   moduleId: string;
   moduleLabel: string;
   category: string;
-  items: NavItem[];
+  items: NavFeature[];
 }
 
 @Injectable({ providedIn: 'root' })

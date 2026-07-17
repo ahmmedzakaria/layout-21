@@ -1,61 +1,128 @@
-<nav class="rail" [class.exp]="rail.expanded()">
+<nav class="rail" [class.detail]="rail.expanded()">
   <button type="button" class="toggle focus-ring" (click)="rail.toggle()" aria-label="Toggle navigation width">
     <app-icon name="hamburger" />
+    <span
+      class="nav-toggle-btn"
+      role="button"
+      tabindex="0"
+      [attr.aria-label]="rail.isExpandedToCategories() ? 'Collapse navigation' : 'Expand navigation'"
+      (click)="toggleEnterpriseNavigation($event)"
+      (keydown.enter)="toggleEnterpriseNavigation($event)"
+    >
+      <app-icon [name]="rail.isExpandedToCategories() ? 'collapse-list' : 'expand-list'" [size]="16" />
+    </span>
   </button>
 
-  <div class="rail-body">
-    @for (mod of modules; track mod.id) {
-      <div class="module-wrap">
-        <button
-          type="button"
-          class="module-row focus-ring"
-          [class.open]="rail.openModuleId() === mod.id"
-          (click)="rail.toggleModule(mod.id)"
-        >
-          <span class="arrow"><app-icon name="chevron-right" [size]="10" /></span>
-          <app-icon [name]="mod.icon" />
-          <span class="lbl">{{ 'nav.' + mod.id | transloco }}</span>
-        </button>
+  <div class="rail-scroll" (mouseenter)="cancelClose()" (mouseleave)="scheduleClose()">
+    <button type="button" class="module-row lvl-1 focus-ring" [class.active]="rail.activePath().length === 0" (click)="openHome()">
+      <app-icon name="home" />
+      <span class="lbl">Dashboard</span>
+      <span class="rail-code">HOME</span>
+    </button>
 
-        @if (rail.openModuleId() === mod.id) {
-          @for (cat of categories(mod.id); track cat) {
-            <div
-              class="child-row"
-              cdkOverlayOrigin
-              #catOrigin="cdkOverlayOrigin"
-              tabindex="0"
-              (mouseenter)="openCategory(mod.id, cat, catOrigin)"
-              (click)="openCategory(mod.id, cat, catOrigin)"
-              (mouseleave)="flyout.scheduleClose()"
-            >
-              <app-icon [name]="categoryIcon[cat]" [size]="13" />
-              <span class="lbl">{{ cat }}</span>
-            </div>
+    @for (moduleGroup of tree; track moduleGroup.id; let groupIndex = $index) {
+      <button
+        type="button"
+        class="module-row lvl-1 focus-ring"
+        [class.active]="isActive([groupIndex])"
+        [class.expanded]="rail.isExpanded([groupIndex])"
+        (click)="rail.togglePath([groupIndex])"
+      >
+        <span class="rail-caret"><app-icon name="chevron-right" [size]="12" /></span>
+        <span class="rail-node-icon"><app-icon [name]="moduleGroup.icon" [size]="18" [strokeWidth]="1.9" /></span>
+        <span class="lbl">{{ moduleGroup.label }}</span>
+      </button>
+
+      @if (rail.expanded() && rail.isExpanded([groupIndex])) {
+        @for (module of moduleGroup.children; track module.id; let moduleIndex = $index) {
+          <button
+            type="button"
+            class="module-row lvl-2 focus-ring"
+            [class.active]="isActive([groupIndex, moduleIndex])"
+            [class.expanded]="rail.isExpanded([groupIndex, moduleIndex])"
+            (click)="rail.togglePath([groupIndex, moduleIndex])"
+          >
+            <span class="rail-caret"><app-icon name="chevron-right" [size]="12" /></span>
+            <span class="rail-node-icon"><app-icon [name]="moduleIconName(module.label)" [size]="15" [strokeWidth]="1.9" /></span>
+            <span class="lbl">{{ module.label }}</span>
+          </button>
+
+          @if (rail.isExpanded([groupIndex, moduleIndex])) {
+            @for (category of module.children; track category.label; let categoryIndex = $index) {
+              <button
+                type="button"
+                class="module-row lvl-3 focus-ring"
+                [class.active]="isActive([groupIndex, moduleIndex, categoryIndex])"
+                (mouseenter)="openCategory([groupIndex, moduleIndex, categoryIndex], $event)"
+                (focus)="openCategory([groupIndex, moduleIndex, categoryIndex], $event)"
+                (click)="openCategory([groupIndex, moduleIndex, categoryIndex], $event)"
+              >
+                <app-icon [name]="category.label === 'Operation' ? 'bolt' : category.label === 'Setup' ? 'gear' : 'bar-chart'" [size]="15" />
+                <span class="lbl">{{ category.label }}</span>
+              </button>
+            }
           }
         }
-      </div>
+      }
     }
   </div>
 </nav>
 
-@if (flyout.origin(); as origin) {
-  <ng-template
-    cdkConnectedOverlay
-    [cdkConnectedOverlayOrigin]="origin"
-    [cdkConnectedOverlayOpen]="!!flyout.content()"
-    [cdkConnectedOverlayPositions]="[
-      { originX: 'end', originY: 'top', overlayX: 'start', overlayY: 'top', offsetX: 0 }
-    ]"
-  >
-    @if (flyout.content(); as content) {
-      <div class="rail-flyout" (mouseenter)="flyout.cancelClose()" (mouseleave)="flyout.scheduleClose()">
-        <div class="cat">{{ content.category }}</div>
-        @for (item of content.items; track item.path) {
-          <button type="button" class="item focus-ring" (click)="selectItem(content, item)">
-            {{ item.label }}
-          </button>
-        }
-      </div>
+@if (overlayCategory(); as category) {
+  @if (overlayModuleGroup(); as moduleGroup) {
+    @if (overlayModule(); as module) {
+      @if (overlayContext(); as context) {
+        <aside
+          class="nav-panel mega"
+          [style.top.px]="overlayTop()"
+          [style.left.px]="overlayLeft()"
+          (mouseenter)="cancelClose()"
+          (mouseleave)="scheduleClose()"
+        >
+          <div class="mega-layout">
+            <div class="mega-context">
+              <div class="mega-context-art" aria-hidden="true">
+                <svg viewBox="0 0 160 120" fill="none">
+                  <rect x="24" y="22" width="112" height="76" rx="12" fill="currentColor" opacity=".12" />
+                  <rect x="37" y="35" width="86" height="50" rx="8" fill="var(--card)" stroke="currentColor" stroke-width="3" />
+                  <path d="M50 50h40M50 63h58M50 76h28" stroke="currentColor" stroke-width="5" stroke-linecap="round" />
+                  <circle cx="116" cy="78" r="18" fill="var(--card)" stroke="currentColor" stroke-width="3" />
+                  <path d="M108 78l5 5 11-13" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+                  <text x="80" y="18" text-anchor="middle" fill="currentColor" font-size="13" font-weight="700">{{ context.mark }}</text>
+                </svg>
+              </div>
+              <div class="mega-context-title">{{ context.title }}</div>
+              <div class="mega-context-note">{{ context.note }}</div>
+            </div>
+
+            <div class="mega-grid">
+              @for (featureGroup of category.children; track featureGroup.label; let featureGroupIndex = $index) {
+                <section class="mega-list">
+                  <h3 class="mega-list-title">{{ featureGroup.label }}</h3>
+                  @for (feature of featureGroup.children; track feature.path; let featureIndex = $index) {
+                    <button
+                      type="button"
+                      class="mega-subitem focus-ring"
+                      (click)="
+                        selectFeature(
+                          moduleGroup,
+                          module,
+                          category,
+                          featureGroup,
+                          feature,
+                          featurePath(rail.overlayCategoryPath() ?? [], featureGroupIndex, featureIndex)
+                        )
+                      "
+                    >
+                      <span class="feature-label">{{ feature.label }}</span>
+                    </button>
+                  }
+                </section>
+              }
+            </div>
+          </div>
+        </aside>
+      }
     }
-  </ng-template>
+  }
 }
