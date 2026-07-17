@@ -941,8 +941,6 @@ function renderStatusNavInfo() {
   statusEl.innerHTML =
     '<div class="sb-item">T-code <span class="sb-tag sb-mono">' + esc(item.code) + '</span></div>' +
     '<div class="sb-div"></div>' +
-    '<div class="sb-item">' + esc(item.label) + '</div>' +
-    '<div class="sb-div"></div>' +
     '<button type="button" class="status-favorite' + (favorite ? ' active' : '') + '" onclick="toggleFavorite(\'' + item.pathKey + '\')">' +
     '<svg viewBox="0 0 24 24" fill="' + (favorite ? 'currentColor' : 'none') + '" stroke="currentColor" stroke-width="1.9"><path d="M12 3.5l2.7 5.5 6.1.9-4.4 4.3 1 6.1L12 17.4l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9L12 3.5z" stroke-linejoin="round"/></svg>' +
     '<span>' + (favorite ? 'Favorite' : 'Add favorite') + '</span>' +
@@ -1378,11 +1376,9 @@ function launchApp(name) {
 }
 
 function logout() {
-  if (confirm('Log out of NexaCore?')) {
-    bc.innerHTML = '🏠 <span>Home</span>';
-    ttl.textContent = 'Signed out';
-    closeAllDD();
-  }
+  bc.innerHTML = '🏠 <span>Home</span>';
+  ttl.textContent = 'Signed out';
+  closeAllDD();
 }
 
 function updateClock() {
