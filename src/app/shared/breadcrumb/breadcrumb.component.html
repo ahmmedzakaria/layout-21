@@ -1,5 +1,5 @@
 <div class="bc">
-  🏠
+  <app-icon name="home" [size]="13" />
   @for (seg of breadcrumb.trail(); track $index; let last = $last) {
     @if (!$first) {
       <span class="sep">/</span>

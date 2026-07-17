@@ -8,7 +8,7 @@ const HOME: BreadcrumbSegment = { label: 'Home' };
 
 @Injectable({ providedIn: 'root' })
 export class BreadcrumbService {
-  /** Always starts with Home, exactly like the `🏠 Home` prefix in the POC's #bc. */
+  /** Always starts with Home, matching the POC's breadcrumb prefix. */
   readonly trail = signal<BreadcrumbSegment[]>([HOME]);
   readonly title = signal<string>('Dashboard');
 
